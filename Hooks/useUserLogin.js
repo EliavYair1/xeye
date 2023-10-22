@@ -10,7 +10,7 @@ const useUserLogin = () => {
   const loginUser = async (username, password) => {
     try {
       setLoading(true);
-      const response = await axios.post(`${process.env.API_BASE_URL}auth`, {
+      const response = await axios.post(`${process.env.API_BASE_URL}/auth`, {
         username,
         password,
       });
@@ -33,15 +33,25 @@ const useUserLogin = () => {
     }
   };
   // Clear the token from AsyncStorage.
-  const logoutUser = async () => {
-    // await removeData("userToken");
-    // await setToken(null);
+  // const logoutUser = async () => {
+  //   // await removeData("userToken");
+  //   // await setToken(null);
 
+  //   try {
+  //     await removeData("userToken");
+  //     setToken(null);
+  //   } catch (error) {
+  //     console.error("Error while logging out:", error);
+  //   }
+  // };
+  const logoutUser = async () => {
     try {
       await removeData("userToken");
       setToken(null);
+      return true;
     } catch (error) {
       console.error("Error while logging out:", error);
+      return false;
     }
   };
 

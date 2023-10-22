@@ -1,8 +1,16 @@
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import React from "react";
-import { View, StyleSheet, Image, Dimensions, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Text,
+  ImageBackground,
+} from "react-native";
 import colors from "../styles/colors";
+import background from "../assets/spalshScreen/splashScreen.png";
 const SplashScreenComponent = ({ onLoaded }) => {
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
@@ -14,9 +22,9 @@ const SplashScreenComponent = ({ onLoaded }) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../assets/imgs/xeyeLogo.png")}
-        style={styles.image}
+      <ImageBackground
+        style={styles.backgroundImage}
+        source={background}
         onLoad={onLoad}
       />
     </View>
@@ -31,7 +39,16 @@ const styles = StyleSheet.create({
     zIndex: 10,
     backgroundColor: "#05052F",
   },
-  image: {},
+  image: {
+    width: 24,
+    height: 24,
+  },
+  backgroundImage: {
+    // flex: 1,r
+    resizeMode: "cover",
+    width: 369,
+    height: 231,
+  },
 });
 
 export default SplashScreenComponent;

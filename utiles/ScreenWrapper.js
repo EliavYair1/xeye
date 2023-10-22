@@ -3,20 +3,21 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React from "react";
+import newReportBackground from "../assets/background/background.png";
 const ScreenWrapper = ({
   children,
   isForm = false,
   edges = ["top", "right", "bottom", "left"],
   wrapperStyle,
   isConnectedUser = false,
-  newReportBackGroundImg,
+  // newReportBackGroundImg,
 }) => {
   const renderBackground = () => {
     if (isConnectedUser) {
       return (
         <ImageBackground
           style={styles.backgroundImage}
-          source={newReportBackGroundImg ? newReportBackground : background}
+          source={newReportBackground}
         >
           {children}
         </ImageBackground>

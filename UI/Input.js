@@ -3,6 +3,8 @@ import React from "react";
 import { TextInput, HelperText } from "react-native-paper";
 import { Controller } from "react-hook-form";
 import fonts from "../styles/fonts";
+import CustomIcon from "./CustomIcon";
+import colors from "../styles/colors";
 const Input = ({
   name,
   label,
@@ -20,6 +22,7 @@ const Input = ({
   onSubmitEditing,
   secureTextEntry = false,
   inputIcon = false,
+  leftIcon = false,
   outlineColor,
   activeOutlineColor,
   placeholder = false,
@@ -51,8 +54,9 @@ const Input = ({
               label={
                 <Text
                   style={{
-                    fontFamily: fonts.Bold,
-                    fontSize: 20,
+                    fontFamily: fonts.SemiBold,
+                    fontSize: 16,
+                    color: "white",
                   }}
                 >
                   {label}
@@ -79,6 +83,7 @@ const Input = ({
               secureTextEntry={secureTextEntry}
               defaultValue={defaultValue} // replaced with value
               right={inputIcon}
+              left={leftIcon}
               style={inputStyle}
               error={!!error}
               disabled={disabled}
