@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: "cover",
+    paddingVertical: 16,
   },
   container: {
     flex: 1,

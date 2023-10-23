@@ -25,7 +25,7 @@ const LoginWindow = () => {
   const dispatch = useDispatch();
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const [formData, setFormData] = useState({});
-  const { navigateToRoute } = useScreenNavigator();
+  // const { navigateToRoute } = useScreenNavigator();
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { token, loading, loginUser, initializeUserToken } = useUserLogin();
@@ -73,7 +73,10 @@ const LoginWindow = () => {
     if (isSchemaValid && response.token) {
       console.log("[LoginWindow]token:", response.token);
       // navigateToRoute(routes.ONBOARDING.Start);
-      router.push({ pathname: "/home", params: { test: "test1" } });
+      router.push({
+        pathname: "/home",
+        params: { loginToken: response.token },
+      });
     }
   };
 

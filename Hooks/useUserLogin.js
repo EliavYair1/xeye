@@ -32,24 +32,17 @@ const useUserLogin = () => {
       setLoading(false);
     }
   };
-  // Clear the token from AsyncStorage.
-  // const logoutUser = async () => {
-  //   // await removeData("userToken");
-  //   // await setToken(null);
 
-  //   try {
-  //     await removeData("userToken");
-  //     setToken(null);
-  //   } catch (error) {
-  //     console.error("Error while logging out:", error);
-  //   }
-  // };
+  // Clear the token from AsyncStorage.
   const logoutUser = async () => {
+    setLoading(true);
     try {
       await removeData("userToken");
+      setLoading(false);
       setToken(null);
       return true;
     } catch (error) {
+      setLoading(false);
       console.error("Error while logging out:", error);
       return false;
     }

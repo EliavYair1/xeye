@@ -8,9 +8,10 @@ import routes from "../../Navigation/routes";
 import colors from "../../styles/colors";
 import { removeData } from "../../Auth/StorageService";
 import Loader from "../../utiles/Loader";
+import { MediumText } from "../../utiles/Fonts";
 
-export default function Page() {
-  const { test } = useLocalSearchParams();
+export default function Home() {
+  const { loginToken } = useLocalSearchParams();
   const { logoutUser, loading, token, initializeUserToken } = useUserLogin();
 
   const handleLogout = async () => {
@@ -29,10 +30,10 @@ export default function Page() {
     <ScreenWrapper
       wrapperStyle={styles.container}
       isConnectedUser={true}
-      edges={["top", "bottom"]}
+      edges={[]}
     >
       <TouchableOpacity onPress={handleLogout} style={styles.logout}>
-        <Text style={styles.logoutText}>Log out</Text>
+        <MediumText style={styles.logoutText}>Log out</MediumText>
       </TouchableOpacity>
       {loading && (
         <Loader size={"large"} color={colors.xeyeBlue} visible={loading} />
@@ -44,13 +45,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-
-    justifyContent: "center",
-    alignItems: "center",
     padding: 16,
   },
-  logout: { alignSelf: "flex-start", justifyContent: "flex-start" },
+  logout: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   logoutText: {
     color: colors.white,
+    textDecorationLine: "underline",
   },
 });

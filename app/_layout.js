@@ -31,15 +31,7 @@ export default function HomeLayout() {
         console.warn(e);
       }
     }
-    const checkLoginStatus = async () => {
-      const user_id = await retrieveData("user_id");
-      console.log(`user #${user_id}`);
-      // if (user_id) {
-      //   router.replace("/login");
-      // }
-      // setTimeout(() => router.replace("/login"), 0);
-    };
-    checkLoginStatus();
+
     prepare();
   }, []);
 
@@ -47,7 +39,14 @@ export default function HomeLayout() {
     await SplashScreen.hideAsync();
     setTimeout(async () => {
       setAppIsReady(true);
-      setTimeout(() => router.replace("/login"), 0);
+      const loginToken = await retrieveData("userToken");
+      console.log(`toekn #${loginToken}`);
+      if (loginToken) {
+        router.replace("/home");
+      } else {
+        router.replace("/login");
+      }
+      // setTimeout(() => router.replace("/login"), 0);
     }, 1000);
   };
 
