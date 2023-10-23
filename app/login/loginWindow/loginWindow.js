@@ -29,12 +29,7 @@ const LoginWindow = () => {
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { token, loading, loginUser, initializeUserToken } = useUserLogin();
-  // initiating the data if user existed
-  // useEffect(() => {
-  //   initializeUserToken();
-  // }, []);
-  // Eliav
-  // 355312
+
   const schema = yup.object().shape({
     username: yup.string().required("username is required"),
     password: yup
@@ -88,7 +83,7 @@ const LoginWindow = () => {
       // newReportBackGroundImg={"../../../assets/background/background.png"}
     >
       {loading ? (
-        <Loader size={"large"} color={colors.xeyeBlue} visible={loading} />
+        <Loader size={"large"} color={colors.white} visible={loading} />
       ) : (
         <>
           <View style={styles.logoWrapper}>

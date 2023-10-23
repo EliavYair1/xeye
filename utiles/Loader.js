@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import ScreenWrapper from "./ScreenWrapper";
+import colors from "../styles/colors";
 const Loader = ({
   visible,
   loaderWrapperStyle,
@@ -23,7 +24,7 @@ const Loader = ({
           size={size}
           style={loaderStyling}
         />
-        <Text style={{ marginTop: 10 }}>Loading...</Text>
+        <Text style={{ marginTop: 10, color: colors.white }}>Loading...</Text>
       </View>
     </ScreenWrapper>
   );

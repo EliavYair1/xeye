@@ -31,7 +31,6 @@ export default function HomeLayout() {
         console.warn(e);
       }
     }
-
     prepare();
   }, []);
 
@@ -46,7 +45,6 @@ export default function HomeLayout() {
       } else {
         router.replace("/login");
       }
-      // setTimeout(() => router.replace("/login"), 0);
     }, 1000);
   };
 
