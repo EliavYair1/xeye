@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { Provider, useDispatch } from "react-redux";
 import store from "../store/redux";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { Stack, router } from "expo-router";
 import React, { useState, useEffect } from "react";
@@ -15,6 +15,10 @@ import {
 } from "@expo-google-fonts/inter";
 import SplashScreenComponent from "../utiles/SplashScreen";
 import { retrieveData } from "../Auth/StorageService";
+import Constants from "expo-constants";
+import ScreenWrapper from "../utiles/ScreenWrapper";
+import colors from "../styles/colors";
+const statusBarHeight = Constants.statusBarHeight;
 export default function HomeLayout() {
   const [appIsReady, setAppIsReady] = useState(false);
   let [fontsLoaded] = useFonts({
@@ -42,8 +46,10 @@ export default function HomeLayout() {
       console.log(`toekn #${loginToken}`);
       if (loginToken) {
         router.replace("/home");
+        // console.log("home");
       } else {
         router.replace("/login");
+        // console.log("login");
       }
     }, 1000);
   };
@@ -57,14 +63,19 @@ export default function HomeLayout() {
 
   return (
     <>
-      <StatusBar style="light" />
       <Provider store={store}>
         <PaperProvider>
-          <View style={{ flex: 1 }}>
+          <StatusBar style="light" backgroundColor={colors.navbar} />
+          <ScreenWrapper wrapperStyle={styles.container} edges={[]}>
             <Stack screenOptions={{ headerShown: false }} initialRouteName="" />
-          </View>
+          </ScreenWrapper>
         </PaperProvider>
       </Provider>
     </>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

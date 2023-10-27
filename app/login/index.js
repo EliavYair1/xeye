@@ -7,9 +7,7 @@ const Login = () => {
   // eliav s465erydgfhg
   return (
     <ScreenWrapper
-      // isForm={true}
       wrapperStyle={styles.container}
-      newReportBackGroundImg={background}
       edges={["right", "left"]}
       isConnectedUser={true}
     >
@@ -25,7 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     // alignItems: "center",
-    backgroundColor: colors.background,
+    // backgroundColor: colors.background,
     resizeMode: "cover",
   },
 });

@@ -14,7 +14,6 @@ import ScreenWrapper from "../../../utiles/ScreenWrapper";
 import routes from "../../../Navigation/routes";
 import Loader from "../../../utiles/Loader";
 import colors from "../../../styles/colors";
-import SvgComponent from "../../../UI/SvgComponent";
 import background from "../../../assets/background/background.svg";
 import fonts from "../../../styles/fonts";
 import CustomIcon from "../../../UI/CustomIcon";
@@ -29,7 +28,6 @@ const LoginWindow = () => {
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { token, loading, loginUser, initializeUserToken } = useUserLogin();
-
   const schema = yup.object().shape({
     username: yup.string().required("username is required"),
     password: yup
@@ -74,7 +72,6 @@ const LoginWindow = () => {
       });
     }
   };
-
   // console.log(token);
   return (
     <ScreenWrapper
@@ -179,9 +176,6 @@ export default LoginWindow;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
-    // backgroundColor: colors.background,
   },
   formContainer: {
     backgroundColor: colors.background,
@@ -191,8 +185,6 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(255, 255, 255, 0.12)",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
-    // shadowRadius: 100,
-    // width: "100%",
     marginBottom: 20,
   },
   logoWrapper: {

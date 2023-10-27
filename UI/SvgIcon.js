@@ -1,0 +1,39 @@
+import React from "react";
+import { View } from "react-native";
+import Svg, { Rect, Path, Circle } from "react-native-svg";
+
+export const AgentIcon = () => {
+  return (
+    <View>
+      <Svg width={24} height={24} viewBox="0 0 24 24">
+        <Rect width={24} height={24} rx={12} fill="#475363" />
+        <Path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M12.0718 11.6332C12.0214 11.626 11.9638 11.626 11.9134 11.6332C10.0703 11.5756 8.59445 10.0709 8.59445 8.22784C8.58726 6.34157 10.1135 4.80089 11.9998 4.80089C13.8572 4.78649 15.3907 6.26238 15.4411 8.11985C15.4915 10.0061 14.0084 11.5828 12.1222 11.6332H12.0718ZM8.34992 13.5466C10.6033 12.2075 13.4039 12.2075 15.6573 13.5466C16.4924 14.029 17.018 14.9001 17.0684 15.8577C17.0252 16.8224 16.4924 17.7007 15.6573 18.1831C14.563 18.867 13.2887 19.2198 12 19.1982C10.7113 19.2198 9.43703 18.867 8.34272 18.1831C7.50759 17.7007 6.97484 16.8296 6.93164 15.8721C6.97484 14.9073 7.51479 14.029 8.34992 13.5466Z"
+          fill="white"
+        />
+      </Svg>
+    </View>
+  );
+};
+
+export const GrayCircleSvg = () => {
+  return (
+    <View>
+      <Svg width={8} height={8} viewBox="0 0 8 8">
+        <Circle cx={4} cy={4} r={4} fill="#B0B0B0" />
+      </Svg>
+    </View>
+  );
+};
+
+export const GreenCircleSvg = () => {
+  return (
+    <View>
+      <Svg width={8} height={8} viewBox="0 0 8 8">
+        <Circle cx={4} cy={4} r={4} fill="#2BD840" />
+      </Svg>
+    </View>
+  );
+};
