@@ -11,15 +11,19 @@ import { BoldText } from "../../utiles/Fonts";
 import AgentInfoStatus from "./agentInfoStatus/agentInfoStatus";
 import ToggleSwitch from "../../UI/ToggleSwitch";
 import EventList from "./eventList/EventList";
+import ActivityTimer from "./activityTimer/ActivityTimer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { formatTime } from "../../Services/TimeFormatter";
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
   const [isOnline, setIsOnline] = useState(false);
-
+  const [displayShiftTime, setDisplayShiftTime] = useState();
   // Function to toggle the online/offline state
   const toggleOnlineStatus = (id) => {
     setIsOnline(!isOnline);
   };
+
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}
@@ -50,7 +54,13 @@ export default function Home() {
               truthyText="Online"
               falsyText="Offline"
             />
-            <EventList />
+            <ActivityTimer isOnline={isOnline} />
+
+            {isOnline && (
+              <>
+                <EventList />
+              </>
+            )}
           </View>
         </>
       )}
