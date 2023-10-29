@@ -18,6 +18,7 @@ import { retrieveData } from "../Auth/StorageService";
 import Constants from "expo-constants";
 import ScreenWrapper from "../utiles/ScreenWrapper";
 import colors from "../styles/colors";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 const statusBarHeight = Constants.statusBarHeight;
 export default function HomeLayout() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -67,7 +68,12 @@ export default function HomeLayout() {
         <PaperProvider>
           <StatusBar style="light" backgroundColor={colors.navbar} />
           <ScreenWrapper wrapperStyle={styles.container} edges={[]}>
-            <Stack screenOptions={{ headerShown: false }} initialRouteName="" />
+            <ActionSheetProvider>
+              <Stack
+                screenOptions={{ headerShown: false }}
+                initialRouteName=""
+              />
+            </ActionSheetProvider>
           </ScreenWrapper>
         </PaperProvider>
       </Provider>

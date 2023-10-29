@@ -69,9 +69,7 @@ const ActivityTimer = ({ isOnline }) => {
 
   return (
     <View>
-      <Text style={styles.timer}>{`Online for: ${formatTime(
-        timerElapsed
-      )}`}</Text>
+      <Text style={styles.timer}>{`${formatTime(timerElapsed)}`}</Text>
     </View>
   );
 };

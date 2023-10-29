@@ -14,13 +14,17 @@ import Event from "./eventList/Event";
 import ActivityTimer from "./activityTimer/ActivityTimer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { formatTime } from "../../Services/TimeFormatter";
+import { useDispatch } from "react-redux";
+import { setOnlineStatus } from "../../store/redux/reducers/onlineStatusSlice";
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
   const [isOnline, setIsOnline] = useState(false);
+  const dispatch = useDispatch();
   // Function to toggle the online/offline state
   const toggleOnlineStatus = (id) => {
     setIsOnline(!isOnline);
+    dispatch(setOnlineStatus(!isOnline));
   };
 
   return (
