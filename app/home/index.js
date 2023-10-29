@@ -10,7 +10,7 @@ import Constants from "expo-constants";
 import { BoldText } from "../../utiles/Fonts";
 import AgentInfoStatus from "./agentInfoStatus/agentInfoStatus";
 import ToggleSwitch from "../../UI/ToggleSwitch";
-import EventList from "./eventList/EventList";
+import Event from "./eventList/Event";
 import ActivityTimer from "./activityTimer/ActivityTimer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { formatTime } from "../../Services/TimeFormatter";
@@ -18,7 +18,6 @@ const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
   const [isOnline, setIsOnline] = useState(false);
-  const [displayShiftTime, setDisplayShiftTime] = useState();
   // Function to toggle the online/offline state
   const toggleOnlineStatus = (id) => {
     setIsOnline(!isOnline);
@@ -54,11 +53,11 @@ export default function Home() {
               truthyText="Online"
               falsyText="Offline"
             />
-            <ActivityTimer isOnline={isOnline} />
+            {/* <ActivityTimer isOnline={isOnline} /> */}
 
             {isOnline && (
               <>
-                <EventList />
+                <Event liveEvent={true} />
               </>
             )}
           </View>
