@@ -49,6 +49,7 @@ const AgentInfoStatus = ({
         </MediumText>
       </View>
       <View style={styles.statusWrapper}>
+        {/* status coming from api */}
         {status ? (
           <>
             <GreenCircleSvg />

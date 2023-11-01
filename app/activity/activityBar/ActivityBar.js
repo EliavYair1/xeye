@@ -7,22 +7,31 @@ import ActivityTimer from "../activityTimer/ActivityTimer";
 import { useSelector } from "react-redux";
 import { selectOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
 import Button from "../../../UI/Button";
-const ActivityBar = ({ statusColor }) => {
+const ActivityBar = ({ statusColor, type, time, alertNumber, status }) => {
   const isOnline = useSelector(selectOnlineStatus);
   // console.log("ActivityBar", isOnline);
+  const timeFormat = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { hour: "2-digit", minute: "2-digit", hour12: true };
+    const formattedTime = date.toLocaleTimeString("en-US", options);
+    return formattedTime;
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: statusColor }]}>
       <View style={styles.iconWrapper}>
         <GunNavbar />
         <View>
-          <MediumText style={styles.gunStatusText}>Alert #123:</MediumText>
-          <MediumText style={styles.gunStatusText}>Gun detected</MediumText>
+          <MediumText style={styles.gunStatusText}>
+            Alert #{alertNumber}:
+          </MediumText>
+          <MediumText style={styles.gunStatusText}>{type} detected</MediumText>
         </View>
       </View>
       <View style={styles.separator} />
-      <BoldText style={styles.gunStatusText}>Assigned</BoldText>
+      <BoldText style={styles.gunStatusText}>{status}</BoldText>
       <View style={styles.separator} />
-      <BoldText style={styles.gunStatusText}>4:35pm</BoldText>
+      <BoldText style={styles.gunStatusText}>{timeFormat(time)}</BoldText>
       <View style={styles.separator} />
       <ActivityTimer isOnline={isOnline} />
     </View>

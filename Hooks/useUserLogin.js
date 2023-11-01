@@ -14,6 +14,7 @@ const useUserLogin = () => {
         username,
         password,
       });
+      // console.log(`url:   ${process.env.API_BASE_URL}/auth`);
       if (response.status == 200) {
         const userToken = response.data.token;
         // console.log("userToken", userToken);
