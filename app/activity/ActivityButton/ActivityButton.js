@@ -4,26 +4,80 @@ import Button from "../../../UI/Button";
 import Fonts from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import useFetch from "../../../Hooks/useFetch";
+import "@env";
+import axios from "axios";
+import Loader from "../../../utiles/Loader";
+import { retrieveData } from "../../../Auth/StorageService";
 const windowWidth = Dimensions.get("screen").width;
-const ActivityButton = () => {
+const ActivityButton = ({ agentId }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
-  const onAcceptPress = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState(null);
+  const onAcceptPress = async () => {
     setButtonColor("#529739");
     setButtonText("Resolved");
   };
 
-  const onPress = () => {
+  const onResolved = async (status) => {
+    const userToken = await retrieveData("userToken");
+    // console.log(userToken);
+    setIsLoading(true);
+    try {
+      console.log("in", agentId);
+      console.log(`${process.env.API_BASE_URL}/front/alert/${agentId}/status`);
+
+      const response = await axios.put(
+        `${process.env.API_BASE_URL}/front/alert/${agentId}/status`,
+        {
+          status: status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      setIsLoading(false);
+
+      console.log("response", response);
+    } catch (error) {
+      setIsLoading(false);
+      console.log("[ActivityButton]Fetch Error:", error);
+    }
+  };
+
+  const getStatusString = (selectedIndex) => {
+    switch (selectedIndex) {
+      case 0:
+        return "accepted";
+      case 1:
+        return "resolved-false-alert";
+      case 2:
+        return "resolved-naive";
+      case 3:
+        return "resolved-authorized";
+      case 4:
+        return "resolved-real-suspect";
+      default:
+        return null;
+    }
+  };
+
+  const onPress = async () => {
     const options = [
+      "Accepted",
       "False alert",
-      "Innocent",
-      "Cleared",
+      "Naive",
+      "Authorized",
       "Real suspect",
       "Cancel",
     ];
-    const destructiveButtonIndex = 4;
-    const cancelButtonIndex = 4;
+    const destructiveButtonIndex = 5;
+    const cancelButtonIndex = 5;
 
     showActionSheetWithOptions(
       {
@@ -32,39 +86,24 @@ const ActivityButton = () => {
         destructiveButtonIndex,
       },
       (selectedIndex) => {
-        switch (selectedIndex) {
-          case 0:
-            // False alert
-            console.log("False alert");
-            break;
-
-          case 1:
-            // Naive
-            console.log("Naive");
-            break;
-
-          case 2:
-            // Authorized
-            console.log("Authorized");
-            break;
-
-          case 3:
-            // Real suspect
-            console.log("Real suspect");
-            break;
-
-          case cancelButtonIndex:
-            // Canceled
-            console.log("Cancel");
-            break;
-
-          default:
-            // Handle additional options here
-            console.log("Selected option:", options[selectedIndex]);
+        const selectedStatus = getStatusString(selectedIndex);
+        if (selectedStatus !== null) {
+          console.log("selectedStatus", selectedStatus);
+          onResolved(selectedStatus);
+        } else {
+          console.log("Selected option:", options[selectedIndex]);
         }
       }
     );
   };
+
+  //   console.log("status", status);
+  console.log("isLoading", isLoading);
+
+  if (isLoading) {
+    return <Loader visible={isLoading} size={30} color={colors.white} />;
+  }
+
   return (
     <View>
       {/* <Text>ActivityButton</Text> */}

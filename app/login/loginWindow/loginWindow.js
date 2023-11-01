@@ -22,6 +22,8 @@ import { router } from "expo-router";
 import useFetch from "../../../Hooks/useFetch";
 import "@env";
 import { storeData } from "../../../Auth/StorageService";
+import { setAgentInfo } from "../../../store/redux/reducers/agentSlice";
+
 const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
   const dispatch = useDispatch();
@@ -62,21 +64,6 @@ const LoginWindow = () => {
     setIsSchemaValid(true);
   };
 
-  // const handleLogin = async () => {
-  //   const username = formData.username;
-  //   const password = formData.password;
-  //   const response = await loginUser(username, password);
-
-  //   if (isSchemaValid && response.token) {
-  //     console.log("[LoginWindow]token:", response.token);
-  //     // navigateToRoute(routes.ONBOARDING.Start);
-  //     router.push({
-  //       pathname: "/home",
-  //       params: { loginToken: response.token },
-  //     });
-
-  //   }
-  // };
   const handleLogin = async () => {
     const username = formData.username;
     const password = formData.password;
@@ -93,7 +80,8 @@ const LoginWindow = () => {
             response.token,
             "fetch data"
           );
-          await storeData("agent", data);
+          dispatch(setAgentInfo(data));
+          // await storeData("agent", data);
           router.push({
             pathname: "/home",
             params: { loginToken: response.token },

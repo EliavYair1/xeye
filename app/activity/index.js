@@ -13,70 +13,69 @@ import LoadingScreen from "../../utiles/LoadingScreen";
 import { retrieveData } from "../../Auth/StorageService";
 import Loader from "../../utiles/Loader";
 import ActivityButton from "./ActivityButton/ActivityButton";
-
+import { useSelector } from "react-redux";
 const statusBarHeight = Constants.statusBarHeight;
 const windowWidth = Dimensions.get("screen").width;
 const windowHeight = Dimensions.get("screen").height;
 const Activity = () => {
-  const { showActionSheetWithOptions } = useActionSheet();
-  const [agentData, setAgentData] = useState(null);
-  const alerts = agentData?.alerts;
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  useEffect(() => {
-    const fetchAgent = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const agentData = await retrieveData("agent");
-        setAgentData(agentData);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const agentInfo = useSelector((state) => state.agent.agentInfo);
+  const alerts = agentInfo?.alerts;
 
-    fetchAgent();
-  }, []);
-  console.log(alerts[0]?.status);
-  if (error) {
+  useEffect(() => {
+    if (alerts && alerts != []) {
+      setIsLoading(false);
+    }
+  }, [alerts]);
+
+  // console.log("agentInfo", agentInfo);
+  if (isLoading) {
     return (
-      <View>
-        <Text>Error: {error.message}</Text>
-      </View>
+      <>
+        <ScreenWrapper
+          isConnectedUser={false}
+          wrapperStyle={styles.container}
+          edges={[""]}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Loader visible={isLoading} size={50} color={colors.white} />
+          </View>
+        </ScreenWrapper>
+      </>
     );
   }
+
   return (
     <ScreenWrapper
       isConnectedUser={false}
       wrapperStyle={styles.container}
       edges={[""]}
     >
-      {isLoading ? (
-        <Loader visible={isLoading} />
-      ) : (
-        <>
-          <ActivityBar
-            statusColor={"red"}
-            alertNumber={alerts[0]?.alertNumber}
-            time={alerts[0]?.createdAt}
-            type={alerts[0]?.type}
-            status={alerts[0]?.status}
-          />
-          <View style={styles.imageWrapper}>
-            <TargetThreat
-              imageSource={{ uri: alerts[0]?.snapshot }}
-              imageHeight={windowHeight >= 844 ? 626 : 600}
-              imageWidth={windowWidth - 32}
-              gunBgWidth={229}
-              gunBgHeight={567}
-            />
-          </View>
-          <ActivityButton />
-        </>
-      )}
+      <ActivityBar
+        statusColor={"red"}
+        alertNumber={alerts[0]?.alertNumber}
+        time={alerts[0]?.createdAt}
+        type={alerts[0]?.type}
+        status={alerts[0]?.status}
+      />
+      <View style={styles.imageWrapper}>
+        <TargetThreat
+          imageSource={{ uri: alerts[0]?.snapshot }}
+          imageHeight={windowHeight >= 844 ? 626 : 600}
+          imageWidth={windowWidth - 32}
+          gunBgWidth={229}
+          gunBgHeight={567}
+        />
+      </View>
+      <ActivityButton agentId={alerts[0]?.id} />
     </ScreenWrapper>
   );
 };

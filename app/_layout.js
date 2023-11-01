@@ -21,6 +21,8 @@ import colors from "../styles/colors";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { LogLevel, OneSignal } from "react-native-onesignal";
 import useFetch from "../Hooks/useFetch";
+import { setAgentInfo } from "../store/redux/reducers/agentSlice";
+
 const statusBarHeight = Constants.statusBarHeight;
 export default function HomeLayout() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -59,6 +61,7 @@ export default function HomeLayout() {
             loginToken,
             "fetch data"
           );
+          // dispatch(setAgentInfo(data));
           // await storeData("agent", data);
           router.replace("/home");
 

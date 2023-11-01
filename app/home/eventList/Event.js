@@ -43,7 +43,6 @@ const Event = ({ liveEvent }) => {
           <TouchableOpacity
             style={styles.wrapper}
             onPress={() => {
-              console.log("balsadnjdlokasndfsc");
               handleActivityPress();
             }}
           >
