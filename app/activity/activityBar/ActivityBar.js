@@ -3,7 +3,7 @@ import React from "react";
 import { GunNavbar } from "../../../UI/SvgIcon";
 import { MediumText, BoldText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
-import ActivityTimer from "../../home/activityTimer/ActivityTimer";
+import ActivityTimer from "../activityTimer/ActivityTimer";
 import { useSelector } from "react-redux";
 import { selectOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
 import Button from "../../../UI/Button";

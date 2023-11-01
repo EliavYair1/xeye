@@ -1,10 +1,18 @@
 import axios from "axios";
 import { Alert } from "react-native";
-import { useState, useEffect } from "react";
 
-export const useFetch = async (url, msg) => {
+const useFetch = async (url, token, msg) => {
+  if (!token) {
+    Alert.alert("Error", "Token not provided");
+    throw new Error("Token not provided");
+  }
+
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = response.data;
     return data;
   } catch (error) {

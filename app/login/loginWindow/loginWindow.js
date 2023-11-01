@@ -19,6 +19,9 @@ import fonts from "../../../styles/fonts";
 import CustomIcon from "../../../UI/CustomIcon";
 import passwordIcon from "../../../assets/icons/password.png";
 import { router } from "expo-router";
+import useFetch from "../../../Hooks/useFetch";
+import "@env";
+import { storeData } from "../../../Auth/StorageService";
 const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
   const dispatch = useDispatch();
@@ -58,20 +61,54 @@ const LoginWindow = () => {
     setFormData({ ...formData, [name]: value });
     setIsSchemaValid(true);
   };
+
+  // const handleLogin = async () => {
+  //   const username = formData.username;
+  //   const password = formData.password;
+  //   const response = await loginUser(username, password);
+
+  //   if (isSchemaValid && response.token) {
+  //     console.log("[LoginWindow]token:", response.token);
+  //     // navigateToRoute(routes.ONBOARDING.Start);
+  //     router.push({
+  //       pathname: "/home",
+  //       params: { loginToken: response.token },
+  //     });
+
+  //   }
+  // };
   const handleLogin = async () => {
     const username = formData.username;
     const password = formData.password;
-    const response = await loginUser(username, password);
 
-    if (isSchemaValid && response.token) {
-      console.log("[LoginWindow]token:", response.token);
-      // navigateToRoute(routes.ONBOARDING.Start);
-      router.push({
-        pathname: "/home",
-        params: { loginToken: response.token },
-      });
+    try {
+      const response = await loginUser(username, password);
+
+      if (isSchemaValid && response.token) {
+        console.log("[LoginWindow] token:", response.token);
+
+        try {
+          const data = await useFetch(
+            `${process.env.API_BASE_URL}/front/data`,
+            response.token,
+            "fetch data"
+          );
+          await storeData("agent", data);
+          router.push({
+            pathname: "/home",
+            params: { loginToken: response.token },
+          });
+
+          console.log("Fetched data:", data);
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      }
+    } catch (loginError) {
+      console.error("Login error:", loginError);
     }
   };
+
   // console.log(token);
   return (
     <ScreenWrapper

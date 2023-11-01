@@ -14,11 +14,13 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import SplashScreenComponent from "../utiles/SplashScreen";
-import { retrieveData } from "../Auth/StorageService";
+import { retrieveData, storeData } from "../Auth/StorageService";
 import Constants from "expo-constants";
 import ScreenWrapper from "../utiles/ScreenWrapper";
 import colors from "../styles/colors";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { LogLevel, OneSignal } from "react-native-onesignal";
+import useFetch from "../Hooks/useFetch";
 const statusBarHeight = Constants.statusBarHeight;
 export default function HomeLayout() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -44,9 +46,26 @@ export default function HomeLayout() {
     setTimeout(async () => {
       setAppIsReady(true);
       const loginToken = await retrieveData("userToken");
-      console.log(`toekn #${loginToken}`);
+      // console.log(`toekn #${loginToken}`);
+      OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+      OneSignal.initialize(Constants.expoConfig.extra.oneSignalAppId);
+
       if (loginToken) {
-        router.replace("/home");
+        OneSignal.login(loginToken);
+        await OneSignal.Notifications.requestPermission(true);
+        try {
+          const data = await useFetch(
+            `${process.env.API_BASE_URL}/front/data`,
+            loginToken,
+            "fetch data"
+          );
+          // await storeData("agent", data);
+          router.replace("/home");
+
+          console.log("Fetched data:", data);
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
         // console.log("home");
       } else {
         router.replace("/login");

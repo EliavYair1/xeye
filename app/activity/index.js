@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
 import Constants from "expo-constants";
 import colors from "../../styles/colors";
@@ -8,6 +8,8 @@ import TargetThreat from "../home/eventList/TargetThreat/TargetThreat";
 import Button from "../../UI/Button";
 import Fonts from "../../utiles/Fonts";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import * as Progress from "react-native-progress";
+import LoadingScreen from "../../utiles/LoadingScreen";
 const statusBarHeight = Constants.statusBarHeight;
 const windowWidth = Dimensions.get("screen").width;
 const windowHeight = Dimensions.get("screen").height;
@@ -17,13 +19,13 @@ const Activity = () => {
   const onPress = () => {
     const options = [
       "False alert",
-      "Naive",
-      "Authorized",
+      "Innocent",
+      "Cleared",
       "Real suspect",
       "Cancel",
     ];
     const destructiveButtonIndex = 4;
-    const cancelButtonIndex = 2;
+    const cancelButtonIndex = 4;
 
     showActionSheetWithOptions(
       {

@@ -1,4 +1,9 @@
-import { Link, router, useLocalSearchParams } from "expo-router";
+import {
+  Link,
+  router,
+  useGlobalSearchParams,
+  useLocalSearchParams,
+} from "expo-router";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
@@ -11,9 +16,7 @@ import { BoldText } from "../../utiles/Fonts";
 import AgentInfoStatus from "./agentInfoStatus/agentInfoStatus";
 import ToggleSwitch from "../../UI/ToggleSwitch";
 import Event from "./eventList/Event";
-import ActivityTimer from "./activityTimer/ActivityTimer";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { formatTime } from "../../Services/TimeFormatter";
+import ActivityTimer from "../activity/activityTimer/ActivityTimer";
 import { useDispatch } from "react-redux";
 import { setOnlineStatus } from "../../store/redux/reducers/onlineStatusSlice";
 const statusBarHeight = Constants.statusBarHeight;
@@ -21,6 +24,7 @@ export default function Home() {
   const { loading } = useUserLogin();
   const [isOnline, setIsOnline] = useState(false);
   const dispatch = useDispatch();
+
   // Function to toggle the online/offline state
   const toggleOnlineStatus = (id) => {
     setIsOnline(!isOnline);
@@ -44,7 +48,7 @@ export default function Home() {
 
             <AgentInfoStatus
               agentId={"#01"}
-              agentName={"James Bond"}
+              // agentName={"James Bond"}
               agentProfession={"Security"}
               status={isOnline}
               styling={{ marginBottom: 28 }}
