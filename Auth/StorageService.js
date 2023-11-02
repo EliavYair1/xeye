@@ -17,6 +17,7 @@ export const retrieveData = async (key) => {
   } catch (error) {
     console.log("Error retrieving data:", error);
   }
+  return false;
 };
 
 export const removeData = async (key) => {

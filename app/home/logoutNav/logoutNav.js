@@ -7,17 +7,15 @@ import { router } from "expo-router";
 import colors from "../../../styles/colors";
 import Logo from "../../../assets/imgs/xeyeLogo.png";
 const LogoutNav = () => {
-  const { logoutUser, loading, token, initializeUserToken } = useUserLogin();
+  const { logoutUser, loading } = useUserLogin();
 
   const handleLogout = async () => {
     const logoutSuccess = await logoutUser();
 
     if (logoutSuccess) {
-      console.log("token", token);
+      // console.log("token", token);
 
-      if (token === null) {
-        router.replace("/login");
-      }
+      router.replace("/login");
     }
   };
   return (

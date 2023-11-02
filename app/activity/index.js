@@ -1,16 +1,10 @@
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
 import Constants from "expo-constants";
 import colors from "../../styles/colors";
 import ActivityBar from "./activityBar/ActivityBar";
 import TargetThreat from "../home/eventList/TargetThreat/TargetThreat";
-import Button from "../../UI/Button";
-import Fonts from "../../utiles/Fonts";
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import * as Progress from "react-native-progress";
-import LoadingScreen from "../../utiles/LoadingScreen";
-import { retrieveData } from "../../Auth/StorageService";
 import Loader from "../../utiles/Loader";
 import ActivityButton from "./ActivityButton/ActivityButton";
 import { useSelector } from "react-redux";
@@ -19,9 +13,12 @@ const windowWidth = Dimensions.get("screen").width;
 const windowHeight = Dimensions.get("screen").height;
 const Activity = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const agentInfo = useSelector((state) => state.agent.agentInfo);
   const alerts = agentInfo?.alerts;
+
+  const toggleLoading = (loading) => {
+    setIsLoading(loading);
+  };
 
   useEffect(() => {
     if (alerts && alerts != []) {
@@ -29,7 +26,6 @@ const Activity = () => {
     }
   }, [alerts]);
 
-  // console.log("agentInfo", agentInfo);
   if (isLoading) {
     return (
       <>
@@ -75,7 +71,7 @@ const Activity = () => {
           gunBgHeight={567}
         />
       </View>
-      <ActivityButton agentId={alerts[0]?.id} />
+      <ActivityButton agentId={alerts[0]?.id} toggleLoading={toggleLoading} />
     </ScreenWrapper>
   );
 };

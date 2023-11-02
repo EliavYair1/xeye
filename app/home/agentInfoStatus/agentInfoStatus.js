@@ -6,6 +6,7 @@ import colors from "../../../styles/colors";
 import { retrieveData } from "../../../Auth/StorageService";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useUser } from "../../../Hooks/useUser";
 const AgentInfoStatus = ({
   agentName,
   agentProfession,
@@ -13,8 +14,10 @@ const AgentInfoStatus = ({
   status = false,
   styling,
 }) => {
-  const agentInfo = useSelector((state) => state.agent.agentInfo);
-  const agent = agentInfo?.currentUser;
+  const { user } = useUser();
+  // const agentInfo = useSelector((state) => state.agent.agentInfo);
+  console.log(user);
+  const agent = user;
 
   return (
     <View style={[styles.container, styling ?? ""]}>

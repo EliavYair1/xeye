@@ -4,18 +4,17 @@ import Button from "../../../UI/Button";
 import Fonts from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import useFetch from "../../../Hooks/useFetch";
 import "@env";
 import axios from "axios";
 import Loader from "../../../utiles/Loader";
 import { retrieveData } from "../../../Auth/StorageService";
 const windowWidth = Dimensions.get("screen").width;
-const ActivityButton = ({ agentId }) => {
+const ActivityButton = ({ agentId, toggleLoading }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
-  const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
+
   const onAcceptPress = async () => {
     setButtonColor("#529739");
     setButtonText("Resolved");
@@ -24,7 +23,7 @@ const ActivityButton = ({ agentId }) => {
   const onResolved = async (status) => {
     const userToken = await retrieveData("userToken");
     // console.log(userToken);
-    setIsLoading(true);
+    toggleLoading(true);
     try {
       console.log("in", agentId);
       console.log(`${process.env.API_BASE_URL}/front/alert/${agentId}/status`);
@@ -41,11 +40,11 @@ const ActivityButton = ({ agentId }) => {
         }
       );
 
-      setIsLoading(false);
+      toggleLoading(false);
 
       console.log("response", response);
     } catch (error) {
-      setIsLoading(false);
+      toggleLoading(false);
       console.log("[ActivityButton]Fetch Error:", error);
     }
   };
@@ -97,16 +96,8 @@ const ActivityButton = ({ agentId }) => {
     );
   };
 
-  //   console.log("status", status);
-  console.log("isLoading", isLoading);
-
-  if (isLoading) {
-    return <Loader visible={isLoading} size={30} color={colors.white} />;
-  }
-
   return (
     <View>
-      {/* <Text>ActivityButton</Text> */}
       {buttonText == "Accept" ? (
         <>
           <Button

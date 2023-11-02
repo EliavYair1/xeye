@@ -11,9 +11,10 @@ import {
 } from "react-native";
 import colors from "../styles/colors";
 import background from "../assets/spalshScreen/splashScreen.png";
+
 const SplashScreenComponent = ({ onLoaded }) => {
   useEffect(() => {
-    SplashScreen.preventAutoHideAsync();
+    // SplashScreen.preventAutoHideAsync();
   }, []);
 
   const onLoad = () => {

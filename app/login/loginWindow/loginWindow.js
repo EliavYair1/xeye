@@ -11,7 +11,6 @@ import Button from "../../../UI/Button";
 import { FlatList } from "react-native-gesture-handler";
 import { TextInput } from "react-native-paper";
 import ScreenWrapper from "../../../utiles/ScreenWrapper";
-import routes from "../../../Navigation/routes";
 import Loader from "../../../utiles/Loader";
 import colors from "../../../styles/colors";
 import background from "../../../assets/background/background.svg";
@@ -23,16 +22,18 @@ import useFetch from "../../../Hooks/useFetch";
 import "@env";
 import { storeData } from "../../../Auth/StorageService";
 import { setAgentInfo } from "../../../store/redux/reducers/agentSlice";
+import { useUser } from "../../../Hooks/useUser";
 
 const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
   const dispatch = useDispatch();
+  const { setUser } = useUser();
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const [formData, setFormData] = useState({});
   // const { navigateToRoute } = useScreenNavigator();
   const userInputRef = useRef();
   const passwordInputRef = useRef();
-  const { token, loading, loginUser, initializeUserToken } = useUserLogin();
+  const { token, loading, loginUser } = useUserLogin();
   const schema = yup.object().shape({
     username: yup.string().required("username is required"),
     password: yup
@@ -69,27 +70,12 @@ const LoginWindow = () => {
     const password = formData.password;
 
     try {
-      const response = await loginUser(username, password);
+      if (isSchemaValid) {
+        const loginSuccess = await loginUser(username, password);
 
-      if (isSchemaValid && response.token) {
-        console.log("[LoginWindow] token:", response.token);
-
-        try {
-          const data = await useFetch(
-            `${process.env.API_BASE_URL}/front/data`,
-            response.token,
-            "fetch data"
-          );
-          dispatch(setAgentInfo(data));
-          // await storeData("agent", data);
-          router.push({
-            pathname: "/home",
-            params: { loginToken: response.token },
-          });
-
-          console.log("Fetched data:", data);
-        } catch (error) {
-          console.error("Fetch error:", error);
+        if (loginSuccess) {
+          console.log("[LoginWindow] token:", loginSuccess);
+          router.replace("/home");
         }
       }
     } catch (loginError) {
