@@ -7,14 +7,14 @@ import ActivityBar from "./activityBar/ActivityBar";
 import TargetThreat from "../home/eventList/TargetThreat/TargetThreat";
 import Loader from "../../utiles/Loader";
 import ActivityButton from "./ActivityButton/ActivityButton";
-import { useSelector } from "react-redux";
+import { useAlert } from "../../Hooks/useAlert";
+
 const statusBarHeight = Constants.statusBarHeight;
 const windowWidth = Dimensions.get("screen").width;
 const windowHeight = Dimensions.get("screen").height;
 const Activity = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const agentInfo = useSelector((state) => state.agent.agentInfo);
-  const alerts = agentInfo?.alerts;
+  const { alerts } = useAlert();
 
   const toggleLoading = (loading) => {
     setIsLoading(loading);

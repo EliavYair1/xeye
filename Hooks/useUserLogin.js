@@ -8,11 +8,14 @@ import { useToken } from "./useToken";
 import { useUser } from "./useUser";
 import useFetch from "./useFetch";
 import { OneSignal } from "react-native-onesignal";
+import { useAlert } from "./useAlert";
+
 const useUserLogin = () => {
   // const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const { setToken } = useToken();
   const { setUser } = useUser();
+  const { setAlerts } = useAlert();
   // const [Error, setError] = useState(null);
   const loginUser = async (username, password) => {
     try {
@@ -48,12 +51,13 @@ const useUserLogin = () => {
         userToken,
         "fetch data"
       );
-      console.log("Fetched data:", data, data.currentUser._id);
+      // console.log("Fetched data:", data, data.currentUser._id);
       OneSignal.login(data.currentUser._id);
       if (OneSignal.Notifications.canRequestPermission) {
         console.log("Notifications");
         OneSignal.Notifications.requestPermission(true);
       }
+      setAlerts(data.alerts);
       setUser(data.currentUser);
       return true;
     } catch (error) {

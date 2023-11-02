@@ -16,7 +16,7 @@ const AgentInfoStatus = ({
 }) => {
   const { user } = useUser();
   // const agentInfo = useSelector((state) => state.agent.agentInfo);
-  console.log(user);
+  // console.log(user);
   const agent = user;
 
   return (

@@ -52,7 +52,7 @@ export default function Layout() {
   // console.log("Layout :token ", token);
   useEffect(() => {
     async function prepare() {
-      console.log("innnn", routerIsReady, token);
+      // console.log("innnn", routerIsReady, token);
       ExpoSplashScreen.hideAsync();
       OneSignal.Debug.setLogLevel(LogLevel.Verbose);
       OneSignal.initialize(Constants.expoConfig.extra.oneSignalAppId);
