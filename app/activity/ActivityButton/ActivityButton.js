@@ -8,13 +8,17 @@ import "@env";
 import axios from "axios";
 import Loader from "../../../utiles/Loader";
 import { retrieveData } from "../../../Auth/StorageService";
+import { useDispatch } from "react-redux";
+import { setOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
+import { router } from "expo-router";
+
 const windowWidth = Dimensions.get("screen").width;
 const ActivityButton = ({ agentId, toggleLoading }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
   // const [isLoading, setIsLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const onAcceptPress = async () => {
     setButtonColor("#529739");
     setButtonText("Resolved");
@@ -41,8 +45,11 @@ const ActivityButton = ({ agentId, toggleLoading }) => {
       );
 
       toggleLoading(false);
-
-      console.log("response", response);
+      console.log("status", response.status);
+      if (response.status == 200) {
+        dispatch(setOnlineStatus(false));
+        setTimeout(() => router.replace("/final"), 10);
+      }
     } catch (error) {
       toggleLoading(false);
       console.log("[ActivityButton]Fetch Error:", error);

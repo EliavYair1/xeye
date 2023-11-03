@@ -9,8 +9,21 @@ import LogoutNav from "../home/logoutNav/logoutNav";
 import Button from "../../UI/Button";
 import { router } from "expo-router";
 import fonts from "../../styles/fonts";
+import { useDispatch, useSelector } from "react-redux";
+import { resetElapsed } from "../../store/redux/reducers/timeSlice";
+import { formatTime } from "../../Services/TimeFormatter";
 const statusBarHeight = Constants.statusBarHeight;
 const FinalScreen = ({ time = "0:48" }) => {
+  const elapsed = useSelector((state) => state.time.elapsed);
+  console.log("elapsed", elapsed);
+
+  const dispatch = useDispatch();
+
+  const handleBackToMainScreen = () => {
+    dispatch(resetElapsed());
+    setTimeout(() => router.replace("/home"), 10);
+  };
+
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}
@@ -44,7 +57,7 @@ const FinalScreen = ({ time = "0:48" }) => {
       </BoldText>
       <MediumText style={styles.timerText}>
         You solved the alert perfectly on time, within{" "}
-        <BoldText style={styles.timer}>{time} seconds!</BoldText>
+        <BoldText style={styles.timer}>{formatTime(elapsed)} seconds!</BoldText>
       </MediumText>
       <View style={styles.ratingWrapper}>
         <RateStar />
@@ -55,7 +68,7 @@ const FinalScreen = ({ time = "0:48" }) => {
       </View>
       <Button
         buttonFunction={() => {
-          console.log("router");
+          handleBackToMainScreen();
         }}
         buttonText={"Back to main screen"}
         buttonWidth={303}

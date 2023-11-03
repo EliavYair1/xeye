@@ -1,75 +1,69 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useState, useEffect } from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import colors from "../../../styles/colors";
 import { formatTime } from "../../../Services/TimeFormatter";
+import { useTime } from "../../../Hooks/useTime";
+import { useDispatch, useSelector } from "react-redux";
+import { incrementElapsed } from "../../../store/redux/reducers/timeSlice";
 const ActivityTimer = ({ isOnline }) => {
-  const [timerStartTime, setTimerStartTime] = useState(null);
-  const [timerElapsed, setTimerElapsed] = useState(0);
+  const { elapsedTime, setElapsedTime } = useTime();
+  const dispatch = useDispatch();
+  const elapsed = useSelector((state) => state.time.elapsed);
 
-  // Function to save the elapsed time when going offline
-  const saveShiftTime = async () => {
-    if (timerStartTime) {
-      const elapsedTime = Date.now() - timerStartTime;
-      setTimerElapsed(elapsedTime);
+  // useEffect(() => {
+  //   let timerInterval;
 
-      // Save the elapsed time when going offline
-      await AsyncStorage.setItem("onlineTime", elapsedTime.toString());
-    }
-  };
+  //   const startTimer = () => {
+  //     if (isOnline) {
+  //       const startTime = Date.now() - timerElapsed;
+  //       timerInterval = setInterval(() => {
+  //         const elapsesetTimerElapseddTime = Date.now() - startTime;
+  //         (elapsedTime);
+  //       }, 1000);
+  //     } else {
+  //       if (timerInterval) {
+  //         clearInterval(timerInterval);
+  //       }
+  //     }
+  //   };
 
-  const fetchStoredTime = async () => {
-    const storedTime = await AsyncStorage.getItem("onlineTime");
+  //   startTimer();
 
-    if (storedTime) {
-      setTimerElapsed(parseInt(storedTime));
-    }
-  };
+  //   return () => {
+  //     if (timerInterval) {
+  //       clearInterval(timerInterval);
+  //     }
+  //   };
+  // }, [isOnline]);
 
-  // Use useEffect to start/stop the timer and handle offline state
   useEffect(() => {
     let timerInterval;
 
-    if (isOnline) {
-      // Reset the timer when going online
-      setTimerStartTime(Date.now());
-      setTimerElapsed(0);
-
-      timerInterval = setInterval(() => {
-        if (timerStartTime) {
-          const elapsedTime = Date.now() - timerStartTime;
-          setTimerElapsed(elapsedTime);
-        }
-      }, 1000);
-    } else {
-      if (timerInterval) {
-        // Clear the timer interval when offline
+    const startTimer = () => {
+      if (isOnline) {
+        timerInterval = setInterval(() => {
+          // * usetime usage
+          // setElapsedTime((prevElapsedTime) => prevElapsedTime + 1000);
+          // * redux slice usage
+          dispatch(incrementElapsed());
+        }, 1000);
+      } else {
         clearInterval(timerInterval);
-
-        // Save elapsed time when going offline
-        saveShiftTime();
-
-        // Reset timer
-        setTimerStartTime(null);
-        setTimerElapsed(0);
-      }
-    }
-    fetchStoredTime();
-    return () => {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        // Save elapsed time when unmounting
-        saveShiftTime();
       }
     };
-  }, [isOnline]);
 
-  //   console.log("timr", formatTime(timerElapsed));
+    startTimer();
+
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [isOnline, dispatch]);
 
   return (
     <View>
-      <Text style={styles.timer}>{`${formatTime(timerElapsed)}`}</Text>
+      <Text style={styles.timer}>{formatTime(elapsed)}</Text>
     </View>
   );
 };

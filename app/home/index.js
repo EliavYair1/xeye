@@ -17,20 +17,24 @@ import AgentInfoStatus from "./agentInfoStatus/agentInfoStatus";
 import ToggleSwitch from "../../UI/ToggleSwitch";
 import Event from "./eventList/Event";
 import ActivityTimer from "../activity/activityTimer/ActivityTimer";
-import { useDispatch } from "react-redux";
-import { setOnlineStatus } from "../../store/redux/reducers/onlineStatusSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectOnlineStatus,
+  setOnlineStatus,
+} from "../../store/redux/reducers/onlineStatusSlice";
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
-  const [isOnline, setIsOnline] = useState(false);
+  // const [isOnline, setIsOnline] = useState(false);
   const dispatch = useDispatch();
-
+  const isOnline = useSelector(selectOnlineStatus);
   // Function to toggle the online/offline state
   const toggleOnlineStatus = (id) => {
-    setIsOnline(!isOnline);
-    dispatch(setOnlineStatus(!isOnline));
+    const newOnlineStatus = !isOnline;
+    // setIsOnline(newOnlineStatus);
+    dispatch(setOnlineStatus(newOnlineStatus));
   };
-
+  // todo after finishing activity manipulate Event the live event prop to false globaly
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}
@@ -62,7 +66,6 @@ export default function Home() {
               falsyText="Offline"
             />
             {/* <ActivityTimer isOnline={isOnline} /> */}
-
             {isOnline && (
               <>
                 <Event liveEvent={true} />

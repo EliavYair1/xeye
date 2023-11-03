@@ -26,6 +26,8 @@ const Activity = () => {
     }
   }, [alerts]);
 
+  // console.log("sss", alerts != []);
+  // todo handle preview if there is no active events by checking if alerts is empty [] object else reset the timeslice
   if (isLoading) {
     return (
       <>
