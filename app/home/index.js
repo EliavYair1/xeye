@@ -22,9 +22,12 @@ import {
   selectOnlineStatus,
   setOnlineStatus,
 } from "../../store/redux/reducers/onlineStatusSlice";
+import { useUser } from "../../Hooks/useUser";
+import { useAlert } from "../../Hooks/useAlert";
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
+  const { user } = useUser();
   // const [isOnline, setIsOnline] = useState(false);
   const dispatch = useDispatch();
   const isOnline = useSelector(selectOnlineStatus);
@@ -34,7 +37,13 @@ export default function Home() {
     // setIsOnline(newOnlineStatus);
     dispatch(setOnlineStatus(newOnlineStatus));
   };
+  // const { alerts } = useAlert();
+  // console.log(alerts);
+  // console.log(user.assignedAlert == "");
+  // console.log(user.status);
   // todo after finishing activity manipulate Event the live event prop to false globaly
+  // todo to check why user.status dosent change to offline after sending a post req to alert
+  // todo to check if the assignedAlert is the right value for live event
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}
@@ -54,21 +63,22 @@ export default function Home() {
               agentId={"#01"}
               // agentName={"James Bond"}
               agentProfession={"Security"}
-              status={isOnline}
+              status={user.status}
               styling={{ marginBottom: 28 }}
             />
             <ToggleSwitch
               id="onlineToggle"
               label="Online"
-              switchStates={{ onlineToggle: isOnline }}
+              switchStates={{ onlineToggle: user.status }}
+              value={user.status == "online"}
               toggleSwitch={toggleOnlineStatus}
               truthyText="Online"
               falsyText="Offline"
             />
             {/* <ActivityTimer isOnline={isOnline} /> */}
-            {isOnline && (
+            {user.status == "online" && (
               <>
-                <Event liveEvent={true} />
+                <Event liveEvent={user.assignedAlert !== "" ? true : false} />
               </>
             )}
           </View>

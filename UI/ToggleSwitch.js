@@ -9,6 +9,7 @@ const ToggleSwitch = ({
   toggleSwitch,
   truthyText,
   falsyText,
+  value,
 }) => (
   <View
     style={{
@@ -38,7 +39,8 @@ const ToggleSwitch = ({
       }}
       thumbColor={"#fff"}
       onValueChange={() => toggleSwitch(id)}
-      value={switchStates[id] || 0}
+      // value={switchStates[id] || 0}
+      value={value}
     />
     <Text
       style={{

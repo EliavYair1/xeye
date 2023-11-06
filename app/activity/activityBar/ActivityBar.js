@@ -7,9 +7,12 @@ import ActivityTimer from "../activityTimer/ActivityTimer";
 import { useSelector } from "react-redux";
 import { selectOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
 import Button from "../../../UI/Button";
+import { useUser } from "../../../Hooks/useUser";
 const ActivityBar = ({ statusColor, type, time, alertNumber, status }) => {
   const isOnline = useSelector(selectOnlineStatus);
   // console.log("ActivityBar", isOnline);
+  const { user } = useUser();
+  // console.log(user.status);
   const timeFormat = (timestamp) => {
     const date = new Date(timestamp);
     const options = { hour: "2-digit", minute: "2-digit", hour12: true };
@@ -33,7 +36,7 @@ const ActivityBar = ({ statusColor, type, time, alertNumber, status }) => {
       <View style={styles.separator} />
       <BoldText style={styles.gunStatusText}>{timeFormat(time)}</BoldText>
       <View style={styles.separator} />
-      <ActivityTimer isOnline={isOnline} />
+      <ActivityTimer isOnline={user.status == "online"} />
     </View>
   );
 };

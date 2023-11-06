@@ -23,6 +23,7 @@ const FinalScreen = ({ time = "0:48" }) => {
     dispatch(resetElapsed());
     setTimeout(() => router.replace("/home"), 10);
   };
+  // todo to refresh the put req on final screen after return to main screen
 
   return (
     <ScreenWrapper

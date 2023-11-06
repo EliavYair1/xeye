@@ -15,10 +15,10 @@ const AgentInfoStatus = ({
   styling,
 }) => {
   const { user } = useUser();
+
   // const agentInfo = useSelector((state) => state.agent.agentInfo);
   // console.log(user);
   const agent = user;
-
   return (
     <View style={[styles.container, styling ?? ""]}>
       <View style={styles.agentWrapper}>
@@ -33,7 +33,7 @@ const AgentInfoStatus = ({
       </View>
       <View style={styles.statusWrapper}>
         {/* status coming from api */}
-        {status ? (
+        {status == "online" ? (
           <>
             <GreenCircleSvg />
             <Text style={styles.statusText}>Online</Text>
