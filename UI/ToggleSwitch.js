@@ -30,7 +30,7 @@ const ToggleSwitch = ({
     </Text>
     <Switch
       style={{
-        transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }],
+        transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }],
         overflow: "hidden",
       }}
       trackColor={{

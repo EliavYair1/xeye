@@ -36,6 +36,7 @@ export default function Home() {
   // todo after finishing alert manipulate Event the live event prop to false globaly
   // todo to check why user.status dosent change to offline after sending a post req to alert
   // todo to check if the assignedAlert is the right value for live event
+  // todo make the current user listen to the user status when retoggle the switch AlertToggle
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}

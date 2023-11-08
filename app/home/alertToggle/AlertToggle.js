@@ -4,6 +4,7 @@ import ToggleSwitch from "../../../UI/ToggleSwitch";
 import axios from "axios";
 import "@env";
 import { retrieveData } from "../../../Auth/StorageService";
+// todo restyle the toggle switch
 const AlertToggle = ({ user }) => {
   const [isOnline, setIsOnline] = useState(false);
   const strConversion = (bol) => {
