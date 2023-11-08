@@ -16,18 +16,21 @@ import { router } from "expo-router";
 import { Image } from "react-native";
 import { GunIcon } from "../../../UI/SvgIcon";
 import TargetThreat from "./TargetThreat/TargetThreat";
+
+import { useAlert } from "../../../Hooks/useAlert";
 const windowWidth = Dimensions.get("screen").width;
-const Event = ({ liveEvent }) => {
-  const handleActivityPress = async () => {
-    router.replace("/activity");
+const AlertThumbnail = () => {
+  const handleAlertPress = async () => {
+    router.replace("/alertscreen");
     /*       router.push({
         pathname: "/activity",
         params: { onlineStatus: isOnline },
       }); */
   };
+  const { alert } = useAlert();
   return (
     <View style={styles.container}>
-      {liveEvent ? (
+      {alert ? (
         <>
           <View
             style={{
@@ -43,7 +46,7 @@ const Event = ({ liveEvent }) => {
           <TouchableOpacity
             style={styles.wrapper}
             onPress={() => {
-              handleActivityPress();
+              handleAlertPress();
             }}
           >
             <TargetThreat
@@ -51,7 +54,7 @@ const Event = ({ liveEvent }) => {
               gunBgWidth={144}
               imageWidth={windowWidth - 32}
               imageHeight={240}
-              imageSource={require("../../../assets/imgs/threat.png")}
+              imageSource={{ uri: alert.snapshot }}
             />
           </TouchableOpacity>
 
@@ -76,7 +79,7 @@ const Event = ({ liveEvent }) => {
   );
 };
 
-export default Event;
+export default AlertThumbnail;
 
 const styles = StyleSheet.create({
   container: {

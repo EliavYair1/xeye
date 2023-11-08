@@ -13,7 +13,7 @@ import { setOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice
 import { router } from "expo-router";
 
 const windowWidth = Dimensions.get("screen").width;
-const ActivityButton = ({ agentId, toggleLoading }) => {
+const AlertButton = ({ agentId, toggleLoading }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
@@ -23,7 +23,6 @@ const ActivityButton = ({ agentId, toggleLoading }) => {
     setButtonColor("#529739");
     setButtonText("Resolved");
   };
-
   const onResolved = async (status) => {
     const userToken = await retrieveData("userToken");
     // console.log(userToken);
@@ -52,7 +51,7 @@ const ActivityButton = ({ agentId, toggleLoading }) => {
       }
     } catch (error) {
       toggleLoading(false);
-      console.log("[ActivityButton]Fetch Error:", error);
+      console.log("[AlertButton]Fetch Error:", error);
     }
   };
 
@@ -152,6 +151,6 @@ const ActivityButton = ({ agentId, toggleLoading }) => {
   );
 };
 
-export default ActivityButton;
+export default AlertButton;
 
 const styles = StyleSheet.create({});

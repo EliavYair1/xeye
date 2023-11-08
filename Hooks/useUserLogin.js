@@ -15,7 +15,7 @@ const useUserLogin = () => {
   const [loading, setLoading] = useState(false);
   const { setToken } = useToken();
   const { setUser } = useUser();
-  const { setAlerts } = useAlert();
+  const { setAlert } = useAlert();
   // const [Error, setError] = useState(null);
   const loginUser = async (username, password) => {
     try {
@@ -57,8 +57,10 @@ const useUserLogin = () => {
         console.log("Notifications");
         OneSignal.Notifications.requestPermission(true);
       }
-      setAlerts(data.alerts);
       setUser(data.currentUser);
+
+      setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
+
       return true;
     } catch (error) {
       console.log("error", error);

@@ -2,24 +2,25 @@ import { useEffect, useState } from "react";
 import { retrieveData, storeData } from "../Auth/StorageService";
 
 export function useAlert() {
-  const [alerts, setAlertsState] = useState(false);
+  const [alert, setAlertState] = useState(false);
+
   useEffect(() => {
     void (async () => {
-      const currentAlerts = await retrieveData("currentAlerts");
-      setAlertsState(currentAlerts);
+      const currentAlert = await retrieveData("currentAlert");
+      setAlertState(currentAlert);
     })();
   }, []);
 
-  const setAlerts = (currentAlerts) => {
-    // console.log("settings", currentAlerts);
+  const setAlert = (currentAlert) => {
+    // console.log("settings", currentAlert);
     void (async () => {
-      await storeData("currentAlerts", currentAlerts);
-      setAlertsState(currentAlerts);
+      await storeData("currentAlert", currentAlert);
+      setAlertState(currentAlert);
     })();
   };
 
   return {
-    alerts,
-    setAlerts,
+    alert,
+    setAlert,
   };
 }

@@ -15,8 +15,7 @@ import Constants from "expo-constants";
 import { BoldText } from "../../utiles/Fonts";
 import AgentInfoStatus from "./agentInfoStatus/agentInfoStatus";
 import ToggleSwitch from "../../UI/ToggleSwitch";
-import Event from "./eventList/Event";
-import ActivityTimer from "../activity/activityTimer/ActivityTimer";
+import AlertThumbnail from "./AlertThumbnail/AlertThumbnail";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectOnlineStatus,
@@ -24,24 +23,17 @@ import {
 } from "../../store/redux/reducers/onlineStatusSlice";
 import { useUser } from "../../Hooks/useUser";
 import { useAlert } from "../../Hooks/useAlert";
+import AlertToggle from "./alertToggle/AlertToggle";
+
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
   const { user } = useUser();
-  // const [isOnline, setIsOnline] = useState(false);
-  const dispatch = useDispatch();
-  const isOnline = useSelector(selectOnlineStatus);
-  // Function to toggle the online/offline state
-  const toggleOnlineStatus = (id) => {
-    const newOnlineStatus = !isOnline;
-    // setIsOnline(newOnlineStatus);
-    dispatch(setOnlineStatus(newOnlineStatus));
-  };
-  // const { alerts } = useAlert();
-  // console.log(alerts);
+  // console.log("user", user);
+  const { alert } = useAlert();
   // console.log(user.assignedAlert == "");
-  // console.log(user.status);
-  // todo after finishing activity manipulate Event the live event prop to false globaly
+  // console.log("user", user);
+  // todo after finishing alert manipulate Event the live event prop to false globaly
   // todo to check why user.status dosent change to offline after sending a post req to alert
   // todo to check if the assignedAlert is the right value for live event
   return (
@@ -66,19 +58,11 @@ export default function Home() {
               status={user.status}
               styling={{ marginBottom: 28 }}
             />
-            <ToggleSwitch
-              id="onlineToggle"
-              label="Online"
-              switchStates={{ onlineToggle: user.status }}
-              value={user.status == "online"}
-              toggleSwitch={toggleOnlineStatus}
-              truthyText="Online"
-              falsyText="Offline"
-            />
-            {/* <ActivityTimer isOnline={isOnline} /> */}
+            <AlertToggle user={user} />
+
             {user.status == "online" && (
               <>
-                <Event liveEvent={user.assignedAlert !== "" ? true : false} />
+                <AlertThumbnail />
               </>
             )}
           </View>

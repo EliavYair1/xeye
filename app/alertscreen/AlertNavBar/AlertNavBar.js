@@ -3,14 +3,11 @@ import React from "react";
 import { GunNavbar } from "../../../UI/SvgIcon";
 import { MediumText, BoldText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
-import ActivityTimer from "../activityTimer/ActivityTimer";
-import { useSelector } from "react-redux";
-import { selectOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
-import Button from "../../../UI/Button";
 import { useUser } from "../../../Hooks/useUser";
-const ActivityBar = ({ statusColor, type, time, alertNumber, status }) => {
-  const isOnline = useSelector(selectOnlineStatus);
-  // console.log("ActivityBar", isOnline);
+import AlertTimer from "../alertTimer/AlertTimer";
+
+const AlertNavBar = ({ statusColor, type, time, alertNumber, status }) => {
+  // console.log("AlertNavBar", isOnline);
   const { user } = useUser();
   // console.log(user.status);
   const timeFormat = (timestamp) => {
@@ -36,12 +33,12 @@ const ActivityBar = ({ statusColor, type, time, alertNumber, status }) => {
       <View style={styles.separator} />
       <BoldText style={styles.gunStatusText}>{timeFormat(time)}</BoldText>
       <View style={styles.separator} />
-      <ActivityTimer isOnline={user.status == "online"} />
+      <AlertTimer isOnline={user.status == "online"} />
     </View>
   );
 };
 
-export default ActivityBar;
+export default AlertNavBar;
 
 const styles = StyleSheet.create({
   container: {

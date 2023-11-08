@@ -7,7 +7,9 @@ import { formatTime } from "../../../Services/TimeFormatter";
 import { useTime } from "../../../Hooks/useTime";
 import { useDispatch, useSelector } from "react-redux";
 import { incrementElapsed } from "../../../store/redux/reducers/timeSlice";
-const ActivityTimer = ({ isOnline }) => {
+const AlertTimer = ({ isOnline }) => {
+  // todo to change the name of component to:  alert timer
+
   const { elapsedTime, setElapsedTime } = useTime();
   const dispatch = useDispatch();
   const elapsed = useSelector((state) => state.time.elapsed);
@@ -68,7 +70,7 @@ const ActivityTimer = ({ isOnline }) => {
   );
 };
 
-export default ActivityTimer;
+export default AlertTimer;
 
 const styles = StyleSheet.create({
   timer: {
