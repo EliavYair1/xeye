@@ -1,19 +1,24 @@
 import React from "react";
 import { View, ImageBackground, Dimensions } from "react-native";
 import { GunIcon } from "../../../../UI/SvgIcon";
+import { getAlertIcon } from "../../../../Services/alertIconToDisplay";
+import { useType } from "../../../../Hooks/useType";
+
 const windowWidth = Dimensions.get("screen").width;
 
 const TargetThreat = ({
-  imageSource,
   imageWidth,
   imageHeight,
   gunBgWidth,
   gunBgHeight,
+  alert,
 }) => {
+  const { type } = useType();
+
   return (
     <View style={{ marginBottom: 24 }}>
       <ImageBackground
-        source={imageSource}
+        source={{ uri: alert?.snapshot }}
         style={{
           width: imageWidth,
           height: imageHeight,
@@ -35,7 +40,7 @@ const TargetThreat = ({
             alignItems: "center",
           }}
         >
-          <GunIcon />
+          {getAlertIcon(type, alert?.type, true)}
         </View>
       </ImageBackground>
     </View>

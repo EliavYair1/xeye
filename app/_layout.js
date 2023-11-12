@@ -85,6 +85,7 @@ export default function Layout() {
       setRouterIsReady(true);
     }
   }, [rootNavigationState]);
+
   const onAppLoaded = async () => {
     await SplashScreen.hideAsync();
     setTimeout(async () => {

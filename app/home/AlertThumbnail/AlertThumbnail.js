@@ -1,33 +1,17 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  ImageBackground,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Dimensions } from "react-native";
 import React from "react";
-import { Divider } from "react-native-paper";
 import { BoldText, MediumText } from "../../../utiles/Fonts";
 
 import colors from "../../../styles/colors";
 import { router } from "expo-router";
-import { Image } from "react-native";
-import { GunIcon } from "../../../UI/SvgIcon";
 import TargetThreat from "./TargetThreat/TargetThreat";
 
-import { useAlert } from "../../../Hooks/useAlert";
 const windowWidth = Dimensions.get("screen").width;
-const AlertThumbnail = () => {
+const AlertThumbnail = ({ alert }) => {
   const handleAlertPress = async () => {
-    router.replace("/alertscreen");
-    /*       router.push({
-        pathname: "/activity",
-        params: { onlineStatus: isOnline },
-      }); */
+    router.push("/alertscreen");
   };
-  const { alert } = useAlert();
+
   return (
     <View style={styles.container}>
       {alert ? (
@@ -54,7 +38,7 @@ const AlertThumbnail = () => {
               gunBgWidth={144}
               imageWidth={windowWidth - 32}
               imageHeight={240}
-              imageSource={{ uri: alert.snapshot }}
+              alert={alert}
             />
           </TouchableOpacity>
 

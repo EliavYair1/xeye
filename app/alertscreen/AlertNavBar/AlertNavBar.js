@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
-import { GunNavbar } from "../../../UI/SvgIcon";
 import { MediumText, BoldText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
 import { useUser } from "../../../Hooks/useUser";
 import AlertTimer from "../alertTimer/AlertTimer";
+import { useType } from "../../../Hooks/useType";
 
-const AlertNavBar = ({ statusColor, type, time, alertNumber, status }) => {
-  // console.log("AlertNavBar", isOnline);
+import { getAlertIcon } from "../../../Services/alertIconToDisplay";
+
+const AlertNavBar = ({ statusColor, alert }) => {
   const { user } = useUser();
-  // console.log(user.status);
+  const { type } = useType();
   const timeFormat = (timestamp) => {
     const date = new Date(timestamp);
     const options = { hour: "2-digit", minute: "2-digit", hour12: true };
@@ -17,23 +18,32 @@ const AlertNavBar = ({ statusColor, type, time, alertNumber, status }) => {
     return formattedTime;
   };
 
+  if (!alert) {
+    return <></>;
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: statusColor }]}>
       <View style={styles.iconWrapper}>
-        <GunNavbar />
+        {getAlertIcon(type, alert.type, false)}
         <View>
           <MediumText style={styles.gunStatusText}>
-            Alert #{alertNumber}:
+            Alert #{alert.alertNumber}:
           </MediumText>
-          <MediumText style={styles.gunStatusText}>{type} detected</MediumText>
+          <MediumText style={styles.gunStatusText}>
+            {alert.type} detected
+          </MediumText>
         </View>
       </View>
       <View style={styles.separator} />
-      <BoldText style={styles.gunStatusText}>{status}</BoldText>
+      <BoldText style={styles.gunStatusText}>{alert.status}</BoldText>
       <View style={styles.separator} />
-      <BoldText style={styles.gunStatusText}>{timeFormat(time)}</BoldText>
+      <BoldText style={styles.gunStatusText}>
+        {timeFormat(alert.createdAt)}
+      </BoldText>
       <View style={styles.separator} />
-      <AlertTimer isOnline={user.status == "online"} />
+
+      <AlertTimer isOnline={user.status == "online"} alert={alert} />
     </View>
   );
 };

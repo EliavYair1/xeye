@@ -1,11 +1,5 @@
-import {
-  Link,
-  router,
-  useGlobalSearchParams,
-  useLocalSearchParams,
-} from "expo-router";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
 import colors from "../../styles/colors";
 import Loader from "../../utiles/Loader";
@@ -16,11 +10,7 @@ import { BoldText } from "../../utiles/Fonts";
 import AgentInfoStatus from "./agentInfoStatus/agentInfoStatus";
 import ToggleSwitch from "../../UI/ToggleSwitch";
 import AlertThumbnail from "./AlertThumbnail/AlertThumbnail";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectOnlineStatus,
-  setOnlineStatus,
-} from "../../store/redux/reducers/onlineStatusSlice";
+
 import { useUser } from "../../Hooks/useUser";
 import { useAlert } from "../../Hooks/useAlert";
 import AlertToggle from "./alertToggle/AlertToggle";
@@ -28,15 +18,9 @@ import AlertToggle from "./alertToggle/AlertToggle";
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
-  const { user } = useUser();
-  // console.log("user", user);
+  const { user, setUser } = useUser();
   const { alert } = useAlert();
-  // console.log(user.assignedAlert == "");
-  // console.log("user", user);
-  // todo after finishing alert manipulate Event the live event prop to false globaly
-  // todo to check why user.status dosent change to offline after sending a post req to alert
-  // todo to check if the assignedAlert is the right value for live event
-  // todo make the current user listen to the user status when retoggle the switch AlertToggle
+
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}
@@ -52,20 +36,15 @@ export default function Home() {
           <View style={styles.innerContainer}>
             <BoldText style={styles.header}>Welcome</BoldText>
 
-            <AgentInfoStatus
-              agentId={"#01"}
-              // agentName={"James Bond"}
-              agentProfession={"Security"}
-              status={user.status}
-              styling={{ marginBottom: 28 }}
+            <AgentInfoStatus user={user} styling={{ marginBottom: 28 }} />
+            <AlertToggle
+              callback={(status) => {
+                setUser({ ...user, status: status });
+              }}
+              user={user}
             />
-            <AlertToggle user={user} />
 
-            {user.status == "online" && (
-              <>
-                <AlertThumbnail />
-              </>
-            )}
+            {user.status == "online" && <AlertThumbnail alert={alert} />}
           </View>
         </>
       )}

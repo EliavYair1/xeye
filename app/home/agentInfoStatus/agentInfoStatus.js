@@ -1,33 +1,24 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AgentIcon, GrayCircleSvg, GreenCircleSvg } from "../../../UI/SvgIcon";
 import Fonts, { MediumText, DefaultText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
-import { retrieveData } from "../../../Auth/StorageService";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { useUser } from "../../../Hooks/useUser";
-const AgentInfoStatus = ({ status = false, styling }) => {
-  const { user } = useUser();
-
-  // const agentInfo = useSelector((state) => state.agent.agentInfo);
-  const agent = user;
-
+const AgentInfoStatus = ({ user, styling }) => {
   return (
     <View style={[styles.container, styling ?? ""]}>
       <View style={styles.agentWrapper}>
         <AgentIcon />
-        <MediumText style={styles.agentDetails}>{agent?.fullname}</MediumText>
+        <MediumText style={styles.agentDetails}>{user?.fullname}</MediumText>
         <MediumText style={styles.agentDetails}>
-          {agent.permission == 0 ? "Security" : "Unknown"}{" "}
+          {"Security "}
           <MediumText
             style={styles.agentDetails}
-          >{`#${agent?.userNumber}`}</MediumText>
+          >{`#${user?.userNumber}`}</MediumText>
         </MediumText>
       </View>
       <View style={styles.statusWrapper}>
         {/* status coming from api */}
-        {status == "online" ? (
+        {user.status == "online" ? (
           <>
             <GreenCircleSvg />
             <Text style={styles.statusText}>Online</Text>

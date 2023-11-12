@@ -1,21 +1,23 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import axios from "axios";
 import "@env";
 import { retrieveData } from "../../../Auth/StorageService";
 // todo restyle the toggle switch
-const AlertToggle = ({ user }) => {
+const AlertToggle = ({ callback, user }) => {
   const [isOnline, setIsOnline] = useState(false);
   const strConversion = (bol) => {
     return bol ? "online" : "offline";
   };
+
   useEffect(() => {
-    setIsOnline(user.status === "online");
+    setIsOnline(user.status == "online");
   }, [user]);
 
   const changeUserStatus = async (status) => {
-    const userToken = await retrieveData("userToken");
+    const userToken = await retrieveData("currentToken");
+    // console.log("userToken", userToken);
     try {
       console.log("status", strConversion(status));
       let url = `${process.env.API_BASE_URL}/front/users/${user._id}`;
@@ -32,22 +34,14 @@ const AlertToggle = ({ user }) => {
       );
       if (response.status == "200") {
         console.log("status updated successfully!");
-        console.log("response", response);
+        console.log("response", response.data);
+        callback(response.data.status);
       }
     } catch (error) {
       console.error("[AlertToggle]updateStatus Err:", error);
     }
   };
 
-  // Function to toggle the online/offline state
-  const toggleOnlineStatus = async () => {
-    // console.log("id", id);
-    const newOnlineStatus = !isOnline;
-    // console.log("status", strConversion(newOnlineStatus));
-    setIsOnline(newOnlineStatus);
-    await changeUserStatus(newOnlineStatus);
-    // dispatch(setOnlineStatus(newOnlineStatus));
-  };
   return (
     <View>
       <ToggleSwitch
@@ -55,7 +49,7 @@ const AlertToggle = ({ user }) => {
         label="Online"
         switchStates={{ onlineToggle: isOnline }}
         value={isOnline}
-        toggleSwitch={toggleOnlineStatus}
+        toggleSwitch={() => changeUserStatus(!isOnline)}
         truthyText="Online"
         falsyText="Offline"
       />
