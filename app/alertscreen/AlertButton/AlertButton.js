@@ -11,12 +11,15 @@ import { retrieveData } from "../../../Auth/StorageService";
 import { useDispatch } from "react-redux";
 import { setOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
 import { router } from "expo-router";
+import { useToken } from "../../../Hooks/useToken";
 
 const windowWidth = Dimensions.get("screen").width;
 const AlertButton = ({ agentId, toggleLoading }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
+  const { token } = useToken();
+  // console.log("out", token);
   // const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const onAcceptPress = async () => {
@@ -24,11 +27,10 @@ const AlertButton = ({ agentId, toggleLoading }) => {
     setButtonText("Resolved");
   };
   const onResolved = async (status) => {
-    const userToken = await retrieveData("userToken");
-    // console.log(userToken);
+    // console.log("in", token);
     toggleLoading(true);
     try {
-      console.log("in", agentId);
+      // console.log("in", agentId);
       console.log(`${process.env.API_BASE_URL}/front/alert/${agentId}/status`);
 
       const response = await axios.put(
@@ -38,7 +40,7 @@ const AlertButton = ({ agentId, toggleLoading }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

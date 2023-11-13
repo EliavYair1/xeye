@@ -1,40 +1,15 @@
-import {
-  GrenadeIcon,
-  GrenadeNavbar,
-  GunIcon,
-  GunNavbar,
-  KnifeIcon,
-  KnifeNavbar,
-} from "../UI/SvgIcon";
+import { SvgXml } from "react-native-svg";
+
 // * assigning the right icon to display according to the alert.
-export const getAlertIcon = (typeOfAlert, alertIcon, thumbNail) => {
-  if (typeOfAlert[0]?.role === "alert") {
-    const matchingIcon = typeOfAlert?.find((icon) => icon.name === alertIcon);
-    if (matchingIcon) {
-      if (thumbNail) {
-        switch (alertIcon) {
-          case "gun":
-            return <GunIcon />;
-          case "knife":
-            return <KnifeIcon />;
-          case "grenade":
-            return <GrenadeIcon />;
-          default:
-            return null;
-        }
-      } else {
-        switch (alertIcon) {
-          case "gun":
-            return <GunNavbar />;
-          case "knife":
-            return <KnifeNavbar />;
-          case "grenade":
-            return <GrenadeNavbar />;
-          default:
-            return null;
-        }
-      }
-    }
+export const getAlertIcon = (typeOfAlert, alertIcon) => {
+  // console.log("typeOfAlert", typeOfAlert);
+
+  const matchingIcon = typeOfAlert?.find(
+    (icon) => icon.name === alertIcon && icon.role === "alert"
+  );
+  // console.log("matchingIcon", matchingIcon.icon);
+  if (matchingIcon) {
+    return <SvgXml xml={matchingIcon.icon} style={{ color: "white" }} />;
   }
   return null;
 };

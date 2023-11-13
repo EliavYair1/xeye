@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import { retrieveData, storeData } from "../Auth/StorageService";
 
-export function useType() {
-  const [type, setTypeState] = useState(false);
+export function useTypes() {
+  const [types, setTypeState] = useState(false);
 
   useEffect(() => {
     void (async () => {
-      const currentType = await retrieveData("currentType");
-      setTypeState(currentType);
+      const currentTypes = await retrieveData("currentTypes");
+      setTypeState(currentTypes);
     })();
   }, []);
 
-  const setType = (currentType) => {
-    // console.log("settings", currentType);
+  const setTypes = (currentTypes) => {
+    // console.log("settings", currentTypes);
     void (async () => {
-      await storeData("currentType", currentType);
-      setTypeState(currentType);
+      await storeData("currentTypes", currentTypes);
+      setTypeState(currentTypes);
     })();
   };
 
   return {
-    type,
-    setType,
+    types,
+    setTypes,
   };
 }

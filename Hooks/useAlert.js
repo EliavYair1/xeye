@@ -3,7 +3,6 @@ import { retrieveData, storeData } from "../Auth/StorageService";
 
 export function useAlert() {
   const [alert, setAlertState] = useState(false);
-
   useEffect(() => {
     void (async () => {
       const currentAlert = await retrieveData("currentAlert");

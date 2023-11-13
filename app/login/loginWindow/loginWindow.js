@@ -1,36 +1,24 @@
-import { Alert, Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import useScreenNavigator from "../../../Hooks/useScreenNavigator";
 import useUserLogin from "../../../Hooks/useUserLogin";
 import Input from "../../../UI/Input";
 import Button from "../../../UI/Button";
-import { FlatList } from "react-native-gesture-handler";
 import { TextInput } from "react-native-paper";
 import ScreenWrapper from "../../../utiles/ScreenWrapper";
 import Loader from "../../../utiles/Loader";
 import colors from "../../../styles/colors";
-import background from "../../../assets/background/background.svg";
 import fonts from "../../../styles/fonts";
-import CustomIcon from "../../../UI/CustomIcon";
-import passwordIcon from "../../../assets/icons/password.png";
 import { router } from "expo-router";
-import useFetch from "../../../Hooks/useFetch";
 import "@env";
-import { storeData } from "../../../Auth/StorageService";
-import { setAgentInfo } from "../../../store/redux/reducers/agentSlice";
-import { useUser } from "../../../Hooks/useUser";
 
 const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
-  const dispatch = useDispatch();
-  const { setUser } = useUser();
+
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const [formData, setFormData] = useState({});
-  // const { navigateToRoute } = useScreenNavigator();
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { token, loading, loginUser } = useUserLogin();

@@ -7,7 +7,7 @@ const AlertTimer = ({ isOnline, alert }) => {
   const [timeDiff, settimeDiff] = useState(
     new Date() - new Date(alert.assignedAt)
   );
-  // todo to change the name of component to:  alert timer
+
   useEffect(() => {
     setInterval(() => {
       settimeDiff((prev) => prev + 1000);

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
 import colors from "../../styles/colors";
 import Loader from "../../utiles/Loader";

@@ -3,6 +3,7 @@ import ScreenWrapper from "../../utiles/ScreenWrapper";
 import colors from "../../styles/colors";
 import background from "../../assets/background/background.png";
 import LoginWindow from "./loginWindow/loginWindow";
+import SocketConnection from "../../Services/socket";
 const Login = () => {
   // eliav s465erydgfhg
   return (
@@ -12,6 +13,7 @@ const Login = () => {
       isConnectedUser={true}
     >
       <LoginWindow />
+      <SocketConnection />
     </ScreenWrapper>
   );
 };
@@ -21,9 +23,6 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
-    // backgroundColor: colors.background,
     resizeMode: "cover",
   },
 });

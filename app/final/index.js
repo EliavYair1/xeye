@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import React from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
 import Constants from "expo-constants";
@@ -9,22 +9,21 @@ import LogoutNav from "../home/logoutNav/logoutNav";
 import Button from "../../UI/Button";
 import { router } from "expo-router";
 import fonts from "../../styles/fonts";
-import { useDispatch, useSelector } from "react-redux";
-import { resetElapsed } from "../../store/redux/reducers/timeSlice";
 import { formatTime } from "../../Services/TimeFormatter";
+import { useAlert } from "../../Hooks/useAlert";
+import useUserLogin from "../../Hooks/useUserLogin";
+import { useToken } from "../../Hooks/useToken";
 const statusBarHeight = Constants.statusBarHeight;
-const FinalScreen = ({ time = "0:48" }) => {
-  const elapsed = useSelector((state) => state.time.elapsed);
-  console.log("elapsed", elapsed);
-
-  const dispatch = useDispatch();
-
-  const handleBackToMainScreen = () => {
-    dispatch(resetElapsed());
+const FinalScreen = () => {
+  const { alert } = useAlert();
+  const calculatedDate = new Date() - new Date(alert.assignedAt);
+  const { loginUserWithToken } = useUserLogin();
+  const { token } = useToken();
+  const handleBackToMainScreen = async () => {
+    console.log("time recorded", formatTime(calculatedDate));
+    await loginUserWithToken(token);
     setTimeout(() => router.replace("/home"), 10);
   };
-  // todo to calculate the dateNow with the updateAT
-  // todo to refresh the put req on final screen after return to main screen
 
   return (
     <ScreenWrapper
@@ -59,7 +58,9 @@ const FinalScreen = ({ time = "0:48" }) => {
       </BoldText>
       <MediumText style={styles.timerText}>
         You solved the alert perfectly on time, within{" "}
-        <BoldText style={styles.timer}>{formatTime(elapsed)} seconds!</BoldText>
+        <BoldText style={styles.timer}>
+          {formatTime(calculatedDate)} seconds!
+        </BoldText>
       </MediumText>
       <View style={styles.ratingWrapper}>
         <RateStar />

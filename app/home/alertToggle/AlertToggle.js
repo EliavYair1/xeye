@@ -4,19 +4,21 @@ import ToggleSwitch from "../../../UI/ToggleSwitch";
 import axios from "axios";
 import "@env";
 import { retrieveData } from "../../../Auth/StorageService";
+import { useToken } from "../../../Hooks/useToken";
 // todo restyle the toggle switch
 const AlertToggle = ({ callback, user }) => {
   const [isOnline, setIsOnline] = useState(false);
   const strConversion = (bol) => {
     return bol ? "online" : "offline";
   };
+  const { token } = useToken();
 
   useEffect(() => {
     setIsOnline(user.status == "online");
   }, [user]);
 
   const changeUserStatus = async (status) => {
-    const userToken = await retrieveData("currentToken");
+    // const userToken = await retrieveData("currentToken");
     // console.log("userToken", userToken);
     try {
       console.log("status", strConversion(status));
@@ -28,7 +30,7 @@ const AlertToggle = ({ callback, user }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

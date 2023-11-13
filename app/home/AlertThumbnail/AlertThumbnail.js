@@ -5,12 +5,20 @@ import { BoldText, MediumText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
 import { router } from "expo-router";
 import TargetThreat from "./TargetThreat/TargetThreat";
-
+import { useEffect } from "react";
 const windowWidth = Dimensions.get("screen").width;
 const AlertThumbnail = ({ alert }) => {
   const handleAlertPress = async () => {
     router.push("/alertscreen");
   };
+
+  useEffect(() => {
+    if (!alert) {
+      console.log("no event to display...");
+    } else {
+      console.log("[AlertThumbnail] alert:", alert);
+    }
+  }, [alert]);
 
   return (
     <View style={styles.container}>

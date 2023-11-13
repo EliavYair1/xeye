@@ -4,20 +4,20 @@ import { MediumText, BoldText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
 import { useUser } from "../../../Hooks/useUser";
 import AlertTimer from "../alertTimer/AlertTimer";
-import { useType } from "../../../Hooks/useType";
+import { useTypes } from "../../../Hooks/useType";
 
 import { getAlertIcon } from "../../../Services/alertIconToDisplay";
+import { SvgXml } from "react-native-svg";
 
 const AlertNavBar = ({ statusColor, alert }) => {
   const { user } = useUser();
-  const { type } = useType();
+  const { types } = useTypes();
   const timeFormat = (timestamp) => {
     const date = new Date(timestamp);
     const options = { hour: "2-digit", minute: "2-digit", hour12: true };
     const formattedTime = date.toLocaleTimeString("en-US", options);
     return formattedTime;
   };
-
   if (!alert) {
     return <></>;
   }
@@ -25,7 +25,7 @@ const AlertNavBar = ({ statusColor, alert }) => {
   return (
     <View style={[styles.container, { backgroundColor: statusColor }]}>
       <View style={styles.iconWrapper}>
-        {getAlertIcon(type, alert.type, false)}
+        {getAlertIcon(types, alert.type)}
         <View>
           <MediumText style={styles.gunStatusText}>
             Alert #{alert.alertNumber}:
