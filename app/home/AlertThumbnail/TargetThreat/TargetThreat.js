@@ -24,24 +24,7 @@ const TargetThreat = ({
           justifyContent: "center",
           alignItems: "center",
         }}
-      >
-        {/* <View
-          style={{
-            borderWidth: 1,
-            borderColor: "#E92F2F",
-            width: gunBgWidth,
-            height: gunBgHeight,
-            position: "relative",
-            backgroundColor: "rgba(233, 47, 47, 0.20)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {getAlertIcon(type, alert?.type, true)}
-          <GunIcon/>
-        </View> */}
-      </ImageBackground>
+      ></ImageBackground>
     </View>
   );
 };
