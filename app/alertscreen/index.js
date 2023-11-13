@@ -1,5 +1,5 @@
 import { StyleSheet, View, Dimensions } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
 import Constants from "expo-constants";
 import colors from "../../styles/colors";
@@ -17,19 +17,20 @@ const windowHeight = Dimensions.get("screen").height;
 const AlertScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { alert } = useAlert();
-
+  // const isMounted = useRef(false);
   // console.log("alert", alert);
 
   // useEffect(() => {
-  //   if (!alert) {
+  //   console.log("is mounted", isMounted.current && !alert);
+  //   if (isMounted.current && !alert) {
   //     router.back();
   //   }
+  //   isMounted.current = true;
   // }, [alert]);
 
   const toggleLoading = (loading) => {
     setIsLoading(loading);
   };
-  // todo if alert != false  navigate to alert component navigate to /home
 
   return (
     <ScreenWrapper

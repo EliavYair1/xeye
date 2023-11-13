@@ -10,7 +10,8 @@ import useFetch from "./useFetch";
 import { OneSignal } from "react-native-onesignal";
 import { useAlert } from "./useAlert";
 import { useTypes } from "./useType";
-
+import socketIOClient from "socket.io-client";
+const socket = socketIOClient(process.env.SOCKET_IO_URL);
 const useUserLogin = () => {
   // const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -55,6 +56,7 @@ const useUserLogin = () => {
       );
       // console.log("Fetched data:", data, data.currentUser._id);
       OneSignal.login(data.currentUser._id);
+
       if (OneSignal.Notifications.canRequestPermission) {
         console.log("Notifications");
         OneSignal.Notifications.requestPermission(true);
@@ -63,6 +65,25 @@ const useUserLogin = () => {
       setUser(data.currentUser);
       setTypes(data.types);
       setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
+
+      console.log(
+        "[loginUserWithToken]socket test -user id",
+        data.currentUser._id,
+        process.env.SOCKET_IO_URL
+      );
+
+      // * connecting to socket and emit the user id
+      socket.on("connect", () => {
+        console.log("Socket connected!");
+        const dataToSend = {
+          key1: data.currentUser._id,
+        };
+        socket.emit("user_id", dataToSend);
+      });
+
+      socket.on("server_response", (socketData) => {
+        console.log("Received data from server:", socketData);
+      });
 
       return true;
     } catch (error) {
@@ -78,6 +99,8 @@ const useUserLogin = () => {
       setLoading(false);
       setToken(false);
       setUser(false);
+
+      socket.disconnect();
       return true;
     } catch (error) {
       setLoading(false);

@@ -13,7 +13,6 @@ const Login = () => {
       isConnectedUser={true}
     >
       <LoginWindow />
-      <SocketConnection />
     </ScreenWrapper>
   );
 };

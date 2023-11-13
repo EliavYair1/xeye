@@ -4,7 +4,7 @@
     "slug": "xeye",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/imgs/xeyeLogo.png",
     "userInterfaceStyle": "light",
     "scheme": "xeye",
     "splash": {
@@ -19,8 +19,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/imgs/xeyeLogo.png",
+        "backgroundColor": "#ffffff",
+        "resizeMode": "contain"
       },
       "package": "com.moburst.xeye"
     },
