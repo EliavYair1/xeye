@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, Switch } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Fonts from "../utiles/Fonts";
 import colors from "../styles/colors";
+import Switch from "react-native-switches";
+
 const ToggleSwitch = ({
   id,
   label,
@@ -28,19 +30,19 @@ const ToggleSwitch = ({
     >
       {truthyText}
     </Text>
+
     <Switch
-      style={{
-        transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }],
-        overflow: "hidden",
-      }}
-      trackColor={{
-        false: "#B0B0B0",
-        true: "#08CB83",
-      }}
-      thumbColor={"#fff"}
-      onValueChange={() => toggleSwitch(id)}
+      shape={"pill"}
+      showText={false}
+      buttonColor="#ffffff"
+      colorSwitchOn="#08CB83"
+      buttonSize={28}
+      buttonOffsetLeft={6}
+      buttonOffsetRight={6}
+      borderColor="#B0B0B0"
+      colorSwitchOff="#B0B0B0"
       value={switchStates[id] || 0}
-      // value={value}
+      onChange={() => toggleSwitch(id)}
     />
     <Text
       style={{

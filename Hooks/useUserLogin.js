@@ -33,6 +33,7 @@ const useUserLogin = () => {
         const userToken = response.data.token;
         setToken(userToken);
         loginUserWithToken(userToken);
+
         return true;
       } else {
         console.error("Login failed:", response.status);
@@ -58,7 +59,7 @@ const useUserLogin = () => {
       OneSignal.login(data.currentUser._id);
 
       if (OneSignal.Notifications.canRequestPermission) {
-        console.log("Notifications");
+        // console.log("Notifications");
         OneSignal.Notifications.requestPermission(true);
       }
       // console.log(data.types);
@@ -81,7 +82,16 @@ const useUserLogin = () => {
         socket.emit("user_id", dataToSend);
       });
 
-      socket.on("server_response", (socketData) => {
+      // refered to operationType that effect the fullDocument
+
+      // todo listening to changeAlert event from bh soket and looking for operationType
+      // todo case #1 operationType is insert
+      // todo case #2 operationType is update
+      // todo 1. if operationType is insert look inside fullDocument the user, if the user is matched to the user id return alert true else false.
+      // todo 2. if operationType is update and user in the updatedFields is matched to the user id return alert true else false
+      // todo to ask nir what happend when the alert is resolve/false ect.. should the alert turn to false or emit the soket as well??
+
+      socket.on("changeAlert", (socketData) => {
         console.log("Received data from server:", socketData);
       });
 
