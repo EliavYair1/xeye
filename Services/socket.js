@@ -1,58 +1,69 @@
-import { useEffect, useState } from "react";
-import { Button, Text, TextInput, View } from "react-native";
 import socketIOClient from "socket.io-client";
 
-// http://44.205.124.203:5000/
-// to connect to the backend socket i need to pass when login the ip
-const socket = socketIOClient("http://44.205.124.203:5000/");
-socket.on("connect", () => {
-  const dataToSend = {
-    // to send the userId
-    key1: "value1",
-  };
-  socket.emit("initial_data", dataToSend);
-});
+// todo to ask nir what happend when the alert is resolve/false ect.. should the alert turn to false or emit the soket as well??
 
-socket.on("server_response", (data) => {
-  console.log("Received data from server:", data);
-});
+import "@env";
+let socket;
 
-const SocketConnection = () => {
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
+export const initializeSocket = () => {
+  socket = socketIOClient(process.env.SOCKET_IO_URL);
 
-  useEffect(() => {
-    socket.on("message", (newMessage) => {
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    });
-    // ? happend when log out the application
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  socket.on("connect", () => {
+    console.log("Socket connected!");
+  });
 
-  const sendMessage = () => {
-    if (message) {
-      socket.emit("message", message);
-      setMessage("");
-    }
-  };
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected!");
+  });
 
-  return (
-    <View>
-      {messages.map((msg, index) => (
-        <Text key={index} style={{ color: "white" }}>
-          {msg}
-        </Text>
-      ))}
-      <TextInput
-        value={message}
-        onChangeText={(text) => setMessage(text)}
-        style={{ backgroundColor: "white" }}
-      />
-      <Button title="Send" onPress={sendMessage} />
-    </View>
-  );
+  return socket;
 };
 
-export default SocketConnection;
+export const subscribeToChangeAlert = (currentUser, callback) => {
+  if (!socket) {
+    console.error("Socket not initialized");
+    return;
+  }
+
+  socket.on("changeAlert", (socketData) => {
+    console.log("Received data from server:", socketData);
+    if (socketData && socketData.operationType) {
+      // * case #1 operationType is insert
+
+      if (socketData.operationType === "insert") {
+        // * 1. if operationType is insert look inside fullDocument the user, if the user is matched to the user id return alert true else false.
+        if (
+          socketData.fullDocument &&
+          socketData.fullDocument.user === currentUser._id
+        ) {
+          console.log("Alert true for insert");
+          callback(true);
+        } else {
+          console.log("Alert false for insert");
+          callback(false);
+        }
+        // * case #2 operationType is update
+      } else if (socketData.operationType === "update") {
+        // * 2. if operationType is update and user in the updatedFields is matched to the user id return alert true else false
+
+        if (
+          socketData.updateDescription?.updatedFields &&
+          socketData.updateDescription?.updatedFields?.user === currentUser._id
+        ) {
+          console.log("updated Alert true !");
+          callback(true);
+        } else {
+          console.log("updated Alert false !");
+          callback(false);
+        }
+      }
+    }
+  });
+};
+
+export const disconnectSocket = () => {
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
+};

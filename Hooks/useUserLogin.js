@@ -11,6 +11,12 @@ import { OneSignal } from "react-native-onesignal";
 import { useAlert } from "./useAlert";
 import { useTypes } from "./useType";
 import socketIOClient from "socket.io-client";
+import {
+  disconnectSocket,
+  initializeSocket,
+  subscribeToChangeAlert,
+} from "../Services/socket";
+
 const socket = socketIOClient(process.env.SOCKET_IO_URL);
 const useUserLogin = () => {
   // const [token, setToken] = useState(null);
@@ -73,26 +79,18 @@ const useUserLogin = () => {
         process.env.SOCKET_IO_URL
       );
 
-      // * connecting to socket and emit the user id
-      socket.on("connect", () => {
-        console.log("Socket connected!");
-        const dataToSend = {
-          key1: data.currentUser._id,
-        };
-        socket.emit("user_id", dataToSend);
-      });
+      initializeSocket();
 
-      // refered to operationType that effect the fullDocument
-
-      // todo listening to changeAlert event from bh soket and looking for operationType
-      // todo case #1 operationType is insert
-      // todo case #2 operationType is update
-      // todo 1. if operationType is insert look inside fullDocument the user, if the user is matched to the user id return alert true else false.
-      // todo 2. if operationType is update and user in the updatedFields is matched to the user id return alert true else false
-      // todo to ask nir what happend when the alert is resolve/false ect.. should the alert turn to false or emit the soket as well??
-
-      socket.on("changeAlert", (socketData) => {
-        console.log("Received data from server:", socketData);
+      // * subscribe to changeAlert event with currentUser
+      subscribeToChangeAlert(data.currentUser, (isAlert) => {
+        if (isAlert) {
+          console.log("callback is true, perform actions...");
+          // todo to ask nir what should be the conditions about the if the callback is true and false
+          // setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
+        } else {
+          console.log("callback is false, handle false alert...");
+          // setAlert(false);
+        }
       });
 
       return true;
@@ -109,8 +107,8 @@ const useUserLogin = () => {
       setLoading(false);
       setToken(false);
       setUser(false);
-
-      socket.disconnect();
+      disconnectSocket();
+      // socket.disconnect();
       return true;
     } catch (error) {
       setLoading(false);

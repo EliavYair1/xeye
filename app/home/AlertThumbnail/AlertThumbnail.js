@@ -16,7 +16,8 @@ const AlertThumbnail = ({ alert }) => {
     if (!alert) {
       console.log("no event to display...");
     } else {
-      console.log("[AlertThumbnail] alert:", alert);
+      // console.log("[AlertThumbnail] new alert:", alert);
+      console.log("new alert update!!!");
     }
   }, [alert]);
 
