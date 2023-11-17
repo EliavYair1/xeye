@@ -12,15 +12,6 @@ const AlertThumbnail = ({ alert }) => {
     router.push("/alertscreen");
   };
 
-  useEffect(() => {
-    if (!alert) {
-      console.log("no event to display...");
-    } else {
-      // console.log("[AlertThumbnail] new alert:", alert);
-      console.log("new alert update!!!");
-    }
-  }, [alert]);
-
   return (
     <View style={styles.container}>
       {alert ? (

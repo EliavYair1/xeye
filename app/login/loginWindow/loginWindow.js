@@ -13,7 +13,14 @@ import colors from "../../../styles/colors";
 import fonts from "../../../styles/fonts";
 import { router } from "expo-router";
 import "@env";
-
+import { useServerUrl } from "../../../Hooks/useServerUrl";
+// todo to add new field that called "server".
+// todo the field is for the user to insert the endpoint manually.
+// todo to store the user input from the server feild and use it across the app instead using the env.
+// todo to store the api from the input field and display it after the user logout.
+// todo to create an edit possibilty to edit the server field.
+// todo to take all the places where we pointing to the env endpoints and use template strings with the user input from the server
+// todo for exaple serverinput + "/api" = http://44.205.124.203/api || http://44.205.124.203 + ":5000"
 const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
 
@@ -21,8 +28,10 @@ const LoginWindow = () => {
   const [formData, setFormData] = useState({});
   const userInputRef = useRef();
   const passwordInputRef = useRef();
-  const { token, loading, loginUser } = useUserLogin();
+  const { loading, loginUser } = useUserLogin();
+  const { setServerUrl } = useServerUrl();
   const schema = yup.object().shape({
+    server: yup.string().required("server url is required"),
     username: yup.string().required("username is required"),
     password: yup
       .string()
@@ -43,6 +52,7 @@ const LoginWindow = () => {
       .then(() => setIsSchemaValid(true))
       .catch(() => setIsSchemaValid(false));
   }, [schema]);
+
   const handlePasswordToggle = () => {
     setPasswordShowToggle(!passwordShowToggle);
   };
@@ -54,12 +64,14 @@ const LoginWindow = () => {
   };
 
   const handleLogin = async () => {
+    // const server = formData.server;
     const username = formData.username;
     const password = formData.password;
-
+    // todo to add the server to the login user logic
     try {
       if (isSchemaValid) {
         const loginSuccess = await loginUser(username, password);
+        // setServerUrl(server);
 
         if (loginSuccess) {
           console.log("[LoginWindow] token:", loginSuccess);
@@ -93,6 +105,38 @@ const LoginWindow = () => {
               <Text style={styles.header}>Account login</Text>
             </View>
             <View style={styles.inputWrapper}>
+              <Input
+                control={control}
+                name={"server"}
+                proxyRef={userInputRef}
+                label={"Server"}
+                mode={"flat"}
+                secureTextEntry={false}
+                returnKeyType={"next"}
+                numeric={false}
+                underlineColor={"#0C1430"}
+                contentStyle={styles.inputContentStyling}
+                inputStyle={styles.inputStyling}
+                activeUnderlineColor={"#0C1430"}
+                onChangeFunction={(value) => {
+                  handleInputChange("server", value);
+                  console.log("server", value);
+                  setServerUrl(value);
+                }}
+                onSubmitEditing={() => userInputRef.current.focus()}
+                leftIcon={
+                  //todo import the icon imgs
+                  <TextInput.Icon icon="server" color={colors.white} />
+                  // <TextInput.Icon icon="account" color={colors.white} />
+                  // <>
+                  //   <CustomIcon
+                  //     image={require("../../../assets/icons/user.png")}
+                  //     size={16}
+                  //     color={colors.white}
+                  //   />
+                  // </>
+                }
+              />
               <Input
                 control={control}
                 name={"username"}

@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import React from "react";
 import newReportBackground from "../assets/background/background.png";
 import colors from "../styles/colors";
-
+import { StatusBar } from "expo-status-bar";
 const ScreenWrapper = ({
   children,
   isForm = false,
@@ -42,6 +42,7 @@ const ScreenWrapper = ({
           contentContainerStyle={styles.contentWrapper}
           style={wrapperStyle}
         >
+          <StatusBar style="light" backgroundColor={colors.navbar} />
           {renderBackground()}
         </WrapperComponent>
       </SafeAreaView>

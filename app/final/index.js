@@ -19,12 +19,13 @@ const FinalScreen = () => {
   const calculatedDate = new Date() - new Date(alert.assignedAt);
   const { loginUserWithToken } = useUserLogin();
   const { token } = useToken();
+
   const handleBackToMainScreen = async () => {
     console.log("time recorded", formatTime(calculatedDate));
     await loginUserWithToken(token);
     setTimeout(() => router.replace("/home"), 10);
   };
-
+  // console.log("time", formatTime(calculatedDate));
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}

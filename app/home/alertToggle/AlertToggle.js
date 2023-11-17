@@ -5,9 +5,11 @@ import axios from "axios";
 import "@env";
 import { retrieveData } from "../../../Auth/StorageService";
 import { useToken } from "../../../Hooks/useToken";
+import { useServerUrl } from "../../../Hooks/useServerUrl";
 // todo restyle the toggle switch
 const AlertToggle = ({ callback, user }) => {
   const [isOnline, setIsOnline] = useState(false);
+  const { ServerUrl } = useServerUrl();
   const strConversion = (bol) => {
     return bol ? "online" : "offline";
   };
@@ -22,7 +24,7 @@ const AlertToggle = ({ callback, user }) => {
     // console.log("userToken", userToken);
     try {
       console.log("status", strConversion(status));
-      let url = `${process.env.API_BASE_URL}/front/users/${user._id}`;
+      let url = `${ServerUrl}/api/front/users/${user._id}`;
       const response = await axios.put(
         url,
         {

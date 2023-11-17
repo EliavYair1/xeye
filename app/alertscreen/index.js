@@ -32,6 +32,7 @@ const AlertScreen = () => {
     setIsLoading(loading);
   };
 
+  console.log("alert", alert);
   return (
     <ScreenWrapper
       isConnectedUser={false}
@@ -55,7 +56,7 @@ const AlertScreen = () => {
           alert={alert}
         />
       </View>
-      <AlertButton agentId={alert?.id} toggleLoading={toggleLoading} />
+      <AlertButton agentId={alert?._id} toggleLoading={toggleLoading} />
     </ScreenWrapper>
   );
 };

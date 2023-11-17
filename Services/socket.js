@@ -5,8 +5,10 @@ import socketIOClient from "socket.io-client";
 import "@env";
 let socket;
 
-export const initializeSocket = () => {
-  socket = socketIOClient(process.env.SOCKET_IO_URL);
+export const initializeSocket = (url) => {
+  // ! cant pass url as prop for socket connection - dosent respond when updating alert.
+  // ! cant use the hook for the serverUrl in this service .
+  socket = socketIOClient(url);
 
   socket.on("connect", () => {
     console.log("Socket connected!");
@@ -25,37 +27,18 @@ export const subscribeToChangeAlert = (currentUser, callback) => {
     return;
   }
 
-  socket.on("changeAlert", (socketData) => {
-    console.log("Received data from server:", socketData);
-    if (socketData && socketData.operationType) {
+  socket.on("updatedAlert", (socketData) => {
+    if (socketData) {
       // * case #1 operationType is insert
-
-      if (socketData.operationType === "insert") {
-        // * 1. if operationType is insert look inside fullDocument the user, if the user is matched to the user id return alert true else false.
-        if (
-          socketData.fullDocument &&
-          socketData.fullDocument.user === currentUser._id
-        ) {
-          console.log("Alert true for insert");
-          callback(true);
-        } else {
-          console.log("Alert false for insert");
-          callback(false);
-        }
-        // * case #2 operationType is update
-      } else if (socketData.operationType === "update") {
-        // * 2. if operationType is update and user in the updatedFields is matched to the user id return alert true else false
-
-        if (
-          socketData.updateDescription?.updatedFields &&
-          socketData.updateDescription?.updatedFields?.user === currentUser._id
-        ) {
-          console.log("updated Alert true !");
-          callback(true);
-        } else {
-          console.log("updated Alert false !");
-          callback(false);
-        }
+      // * 2. if operationType is update and user in the updatedFields is matched to the user id return alert true else false
+      if (
+        socketData.updateDescription?.updatedFields &&
+        socketData.updateDescription?.updatedFields?.user === currentUser._id
+      ) {
+        callback(socketData.updatedDocument);
+      } else {
+        console.log("updated Alert false !");
+        callback(false);
       }
     }
   });

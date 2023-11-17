@@ -12,29 +12,33 @@ import { useDispatch } from "react-redux";
 import { setOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
 import { router } from "expo-router";
 import { useToken } from "../../../Hooks/useToken";
+import { useAlert } from "../../../Hooks/useAlert";
+import { useServerUrl } from "../../../Hooks/useServerUrl";
 
 const windowWidth = Dimensions.get("screen").width;
-const AlertButton = ({ agentId, toggleLoading }) => {
+const AlertButton = ({ toggleLoading }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
   const { token } = useToken();
-  // console.log("out", token);
+  const { alert } = useAlert();
+  const { ServerUrl } = useServerUrl();
   // const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const onAcceptPress = async () => {
     setButtonColor("#529739");
     setButtonText("Resolved");
   };
+
   const onResolved = async (status) => {
     // console.log("in", token);
     toggleLoading(true);
     try {
       // console.log("in", agentId);
-      console.log(`${process.env.API_BASE_URL}/front/alert/${agentId}/status`);
+      console.log(`${ServerUrl}/api/front/alert/${alert?._id}/status`);
 
       const response = await axios.put(
-        `${process.env.API_BASE_URL}/front/alert/${agentId}/status`,
+        `${ServerUrl}/api/front/alert/${alert?._id}/status`,
         {
           status: status,
         },

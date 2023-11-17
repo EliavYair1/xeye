@@ -3,7 +3,6 @@ import ScreenWrapper from "../../utiles/ScreenWrapper";
 import colors from "../../styles/colors";
 import background from "../../assets/background/background.png";
 import LoginWindow from "./loginWindow/loginWindow";
-import SocketConnection from "../../Services/socket";
 const Login = () => {
   // eliav s465erydgfhg
   return (
