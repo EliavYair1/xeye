@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { retrieveData, storeData } from "../Auth/StorageService";
 
 export function useServerUrl() {
-  const [ServerUrl, setServerUrlState] = useState(false);
+  const [ServerUrl, setServerUrlState] = useState("");
   // console.log("[useServerUrl]ServerUrl", ServerUrl);
   useEffect(() => {
     void (async () => {

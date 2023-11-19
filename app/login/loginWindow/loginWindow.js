@@ -18,11 +18,12 @@ const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
 
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
+  const { setServerUrl, ServerUrl } = useServerUrl();
+  // todo make sure the value of server dont get error when the input is full
   const [formData, setFormData] = useState({});
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { loading, loginUser } = useUserLogin();
-  const { setServerUrl } = useServerUrl();
   // const { setServerUrl } = useToken();
   const schema = yup.object().shape({
     server: yup.string().required("server url is required"),
@@ -61,7 +62,6 @@ const LoginWindow = () => {
     const server = formData.server;
     const username = formData.username;
     const password = formData.password;
-    // todo to add the server to the login user logic
     try {
       if (isSchemaValid) {
         const loginSuccess = await loginUser(username, password);
@@ -106,6 +106,7 @@ const LoginWindow = () => {
                 mode={"flat"}
                 secureTextEntry={false}
                 returnKeyType={"next"}
+                value={ServerUrl}
                 numeric={false}
                 underlineColor={"#0C1430"}
                 contentStyle={styles.inputContentStyling}
@@ -122,7 +123,14 @@ const LoginWindow = () => {
                 onSubmitEditing={() => userInputRef.current.focus()}
                 leftIcon={
                   //todo import the icon imgs
-                  <TextInput.Icon icon="server" color={colors.white} />
+                  <TextInput.Icon
+                    icon="server"
+                    color={colors.white}
+                    onPress={() => {
+                      console.log("server press");
+                      setServerUrl("");
+                    }}
+                  />
                   // <TextInput.Icon icon="account" color={colors.white} />
                   // <>
                   //   <CustomIcon

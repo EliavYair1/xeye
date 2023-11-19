@@ -24,10 +24,9 @@ const useUserLogin = () => {
   const { setAlert } = useAlert();
   const { setTypes } = useTypes();
   const { ServerUrl } = useServerUrl();
-  // todo to change the logic instead getting the api from env hardcoded get it from the input
   const loginUser = async (username, password) => {
+    setLoading(true);
     try {
-      setLoading(true);
       const response = await axios.post(`${ServerUrl}/api/auth`, {
         username,
         password,
@@ -37,7 +36,7 @@ const useUserLogin = () => {
         const userToken = response.data.token;
         setToken(userToken);
         loginUserWithToken(userToken);
-
+        setLoading(false);
         return true;
       } else {
         console.error("Login failed:", response.status);
@@ -52,7 +51,6 @@ const useUserLogin = () => {
     return false;
   };
 
-  // todo to change the logic instead getting the api from env hardcoded get it from the input
   const loginUserWithToken = async (userToken) => {
     try {
       const data = await useFetch(

@@ -3,6 +3,7 @@ import React from "react";
 import { AgentIcon, GrayCircleSvg, GreenCircleSvg } from "../../../UI/SvgIcon";
 import Fonts, { MediumText, DefaultText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
+import Loader from "../../../utiles/Loader";
 const AgentInfoStatus = ({ user, styling }) => {
   return (
     <View style={[styles.container, styling ?? ""]}>
