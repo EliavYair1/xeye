@@ -14,13 +14,6 @@ import fonts from "../../../styles/fonts";
 import { router } from "expo-router";
 import "@env";
 import { useServerUrl } from "../../../Hooks/useServerUrl";
-// todo to add new field that called "server".
-// todo the field is for the user to insert the endpoint manually.
-// todo to store the user input from the server feild and use it across the app instead using the env.
-// todo to store the api from the input field and display it after the user logout.
-// todo to create an edit possibilty to edit the server field.
-// todo to take all the places where we pointing to the env endpoints and use template strings with the user input from the server
-// todo for exaple serverinput + "/api" = http://44.205.124.203/api || http://44.205.124.203 + ":5000"
 const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
 
@@ -30,6 +23,7 @@ const LoginWindow = () => {
   const passwordInputRef = useRef();
   const { loading, loginUser } = useUserLogin();
   const { setServerUrl } = useServerUrl();
+  // const { setServerUrl } = useToken();
   const schema = yup.object().shape({
     server: yup.string().required("server url is required"),
     username: yup.string().required("username is required"),
@@ -64,14 +58,13 @@ const LoginWindow = () => {
   };
 
   const handleLogin = async () => {
-    // const server = formData.server;
+    const server = formData.server;
     const username = formData.username;
     const password = formData.password;
     // todo to add the server to the login user logic
     try {
       if (isSchemaValid) {
         const loginSuccess = await loginUser(username, password);
-        // setServerUrl(server);
 
         if (loginSuccess) {
           console.log("[LoginWindow] token:", loginSuccess);
@@ -122,6 +115,9 @@ const LoginWindow = () => {
                   handleInputChange("server", value);
                   console.log("server", value);
                   setServerUrl(value);
+                  // setServerUrl((prev) => {
+                  //   prev, value;
+                  // });
                 }}
                 onSubmitEditing={() => userInputRef.current.focus()}
                 leftIcon={

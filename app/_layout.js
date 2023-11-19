@@ -31,6 +31,8 @@ import { setAgentInfo } from "../store/redux/reducers/agentSlice";
 import { useUser } from "../Hooks/useUser";
 import { useToken } from "../Hooks/useToken";
 import useUserLogin from "../Hooks/useUserLogin";
+import { initializeSocket, subscribeToChangeAlert } from "../Services/socket";
+import { useAlert } from "../Hooks/useAlert";
 export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: "splash",
@@ -41,6 +43,7 @@ export default function Layout() {
   const rootNavigationState = useRootNavigationState();
   const [routerIsReady, setRouterIsReady] = useState(false);
   const { token } = useToken();
+  const { setAlert } = useAlert();
   const { loginUserWithToken } = useUserLogin();
   const [appIsReady, setAppIsReady] = useState(false);
   let [fontsLoaded] = useFonts({
@@ -85,6 +88,21 @@ export default function Layout() {
       setRouterIsReady(true);
     }
   }, [rootNavigationState]);
+
+  // useEffect(() => {
+  //   initializeSocket();
+  //   if (user) {
+  //     console.log("user", user);
+  //     // * subscribe to changeAlert event with currentUser
+  //     subscribeToChangeAlert(user, (alert) => {
+  //       if (alert) {
+  //         setAlert(alert);
+  //       } else {
+  //         console.log("Alert false !");
+  //       }
+  //     });
+  //   }
+  // }, [user]);
 
   const onAppLoaded = async () => {
     await SplashScreen.hideAsync();

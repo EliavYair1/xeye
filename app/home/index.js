@@ -19,16 +19,17 @@ import {
   subscribeToChangeAlert,
 } from "../../Services/socket";
 import { useServerUrl } from "../../Hooks/useServerUrl";
+import { useToken } from "../../Hooks/useToken";
 
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { loading } = useUserLogin();
   const { user, setUser } = useUser();
   const { alert, setAlert } = useAlert();
-  const { ServerUrl } = useServerUrl();
-  console.log(`${ServerUrl}:5000`);
+  // const { ServerUrl } = useServerUrl();›
+  // console.log(`[Home] ${ServerUrl}:5000/`);
   useEffect(() => {
-    initializeSocket(`${ServerUrl}:5000`);
+    initializeSocket();
     if (user) {
       // * subscribe to changeAlert event with currentUser
       subscribeToChangeAlert(user, (alert) => {

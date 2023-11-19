@@ -3,7 +3,7 @@ import { retrieveData, storeData } from "../Auth/StorageService";
 
 export function useServerUrl() {
   const [ServerUrl, setServerUrlState] = useState(false);
-  // console.log("ServerUrl", ServerUrl);
+  // console.log("[useServerUrl]ServerUrl", ServerUrl);
   useEffect(() => {
     void (async () => {
       const currentServerUrl = await retrieveData("currentServerUrl");

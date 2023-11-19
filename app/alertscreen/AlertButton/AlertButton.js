@@ -21,8 +21,8 @@ const AlertButton = ({ toggleLoading }) => {
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
   const { token } = useToken();
-  const { alert } = useAlert();
   const { ServerUrl } = useServerUrl();
+  const { alert } = useAlert();
   // const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const onAcceptPress = async () => {

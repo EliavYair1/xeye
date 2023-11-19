@@ -3,12 +3,16 @@ import socketIOClient from "socket.io-client";
 // todo to ask nir what happend when the alert is resolve/false ect.. should the alert turn to false or emit the soket as well??
 
 import "@env";
+import { retrieveData } from "../Auth/StorageService";
 let socket;
 
-export const initializeSocket = (url) => {
+export const initializeSocket = () => {
+  // const currentServerUrl = await retrieveData("currentServerUrl");
+  // console.log(currentServerUrl);
   // ! cant pass url as prop for socket connection - dosent respond when updating alert.
   // ! cant use the hook for the serverUrl in this service .
-  socket = socketIOClient(url);
+  // socket = socketIOClient(`${currentServerUrl}:5000/`);
+  socket = socketIOClient(`http://44.205.124.203:5000/`);
 
   socket.on("connect", () => {
     console.log("Socket connected!");
@@ -29,6 +33,7 @@ export const subscribeToChangeAlert = (currentUser, callback) => {
 
   socket.on("updatedAlert", (socketData) => {
     if (socketData) {
+      console.log("currentUser", currentUser);
       // * case #1 operationType is insert
       // * 2. if operationType is update and user in the updatedFields is matched to the user id return alert true else false
       if (
