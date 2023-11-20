@@ -21,7 +21,7 @@ const AlertNavBar = ({ statusColor, alert }) => {
   if (!alert) {
     return <></>;
   }
-  console.log("alert", alert?.status);
+
   return (
     <View style={[styles.container, { backgroundColor: statusColor }]}>
       <View style={styles.iconWrapper}>

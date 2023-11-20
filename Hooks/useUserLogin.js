@@ -73,7 +73,9 @@ const useUserLogin = () => {
       // console.log("[loginUserWithToken]currentUser", data.currentUser);
       setUser(data.currentUser);
       setTypes(data.types);
-      setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
+
+      // setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
+      setAlert(data.alerts ? data.alerts : false);
       // todo align with nir if this code could run only on the home screen
       // initializeSocket();
       // // * subscribe to changeAlert event with currentUser

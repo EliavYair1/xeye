@@ -24,10 +24,7 @@ const AlertButton = ({ toggleLoading }) => {
   const { alert, setAlert } = useAlert();
   // const [isLoading, setIsLoading] = useState(false);
   // todo to apply req for status : accepted and change the navbar accordingly
-  const onAcceptPress = async () => {
-    setButtonColor("#529739");
-    setButtonText("Resolved");
-  };
+
   const onResolved = async (status) => {
     // console.log("in", token);
     toggleLoading(true);
@@ -68,6 +65,23 @@ const AlertButton = ({ toggleLoading }) => {
     }
   };
 
+  const onAcceptPress = async () => {
+    setButtonColor("#529739");
+    setButtonText("Resolved");
+
+    await axios.put(
+      `${ServerUrl}/api/front/alert/${alert?._id}/status`,
+      {
+        status: "accepted",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  };
+
   const getStatusString = (selectedIndex) => {
     switch (selectedIndex) {
       case 0:
@@ -87,7 +101,6 @@ const AlertButton = ({ toggleLoading }) => {
 
   const onPress = async () => {
     const options = [
-      "Accepted",
       "False alert",
       "Naive",
       "Authorized",

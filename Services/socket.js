@@ -19,7 +19,7 @@ export const subscribeToChangeAlert = (currentUser, callback) => {
   }
 
   socket.on("updatedAlert", (socketData) => {
-    // console.log("update alert", socketData);
+    console.log("update alert", socketData);
     if (socketData) {
       console.log("currentUser", currentUser);
       // * case #1 operationType is insert

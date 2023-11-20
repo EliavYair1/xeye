@@ -24,7 +24,6 @@ export default function Home() {
   const { user, setUser, loading } = useUser();
   const { alert, setAlert } = useAlert();
   const { ServerUrl } = useServerUrl();
-  const { token } = useToken();
 
   useEffect(() => {
     if (ServerUrl) {
@@ -36,6 +35,8 @@ export default function Home() {
             setAlert(alert);
           } else {
             console.log("Alert false!");
+            // * if the user is not matched with or resolved from the spotter then alert false.
+            setAlert(false);
           }
         });
       }
@@ -43,8 +44,7 @@ export default function Home() {
   }, [user, ServerUrl]);
 
   // console.log("id", user);
-  // console.log("alert", alert);
-  // console.log("token", token);
+  // console.log("[Home]alert", alert?.status);
 
   return (
     <ScreenWrapper

@@ -10,13 +10,22 @@ import AlertButton from "./AlertButton/AlertButton";
 import { useAlert } from "../../Hooks/useAlert";
 import AlertNavBar from "./AlertNavBar/AlertNavBar";
 import { router } from "expo-router";
+import { useServerUrl } from "../../Hooks/useServerUrl";
+import { useUser } from "../../Hooks/useUser";
+import {
+  initializeSocket,
+  subscribeToChangeAlert,
+} from "../../Services/socket";
+
 const statusBarHeight = Constants.statusBarHeight;
 const windowWidth = Dimensions.get("screen").width;
 const windowHeight = Dimensions.get("screen").height;
 
 const AlertScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { alert } = useAlert();
+  const { alert, setAlert } = useAlert();
+  const { ServerUrl } = useServerUrl();
+  const { user } = useUser();
   // const isMounted = useRef(false);
 
   // useEffect(() => {
@@ -25,12 +34,29 @@ const AlertScreen = () => {
   //     router.back();
   //   }
   //   isMounted.current = true;
-  // }, [alert]);
+  // }, [alert])
+
+  useEffect(() => {
+    if (ServerUrl) {
+      initializeSocket(`${ServerUrl}:5000/`);
+      if (user) {
+        // * subscribe to changeAlert event with currentUser
+        subscribeToChangeAlert(user, (alert) => {
+          if (alert) {
+            setAlert(alert);
+          } else {
+            console.log("Alert false!");
+          }
+        });
+      }
+    }
+  }, [user, ServerUrl, alert]);
 
   const toggleLoading = (loading) => {
     setIsLoading(loading);
   };
 
+  console.log("[Home]AlertScreen", alert?.status);
   return (
     <ScreenWrapper
       isConnectedUser={false}
