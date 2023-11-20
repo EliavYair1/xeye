@@ -31,8 +31,9 @@ import { setAgentInfo } from "../store/redux/reducers/agentSlice";
 import { useUser } from "../Hooks/useUser";
 import { useToken } from "../Hooks/useToken";
 import useUserLogin from "../Hooks/useUserLogin";
-import { initializeSocket, subscribeToChangeAlert } from "../Services/socket";
+// import { initializeSocket, subscribeToChangeAlert } from "../Services/socket";
 import { useAlert } from "../Hooks/useAlert";
+import { useServerUrl } from "../Hooks/useServerUrl";
 export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: "splash",
@@ -45,6 +46,7 @@ export default function Layout() {
   const { token } = useToken();
   const { setAlert } = useAlert();
   const { loginUserWithToken } = useUserLogin();
+  const { ServerUrl } = useServerUrl();
   const [appIsReady, setAppIsReady] = useState(false);
   let [fontsLoaded] = useFonts({
     Inter_400Regular,
@@ -55,7 +57,6 @@ export default function Layout() {
   // console.log("Layout :token ", token);
   useEffect(() => {
     async function prepare() {
-      // console.log("innnn", routerIsReady, token);
       ExpoSplashScreen.hideAsync();
       OneSignal.Debug.setLogLevel(LogLevel.Verbose);
       OneSignal.initialize(Constants.expoConfig.extra.oneSignalAppId);
@@ -74,9 +75,6 @@ export default function Layout() {
             setTimeout(() => router.replace("/login"), 10);
           }
         }
-        // await SplashScreen.preventAutoHideAsync();
-
-        //
       }
     }
 

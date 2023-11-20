@@ -17,6 +17,7 @@ import {
   subscribeToChangeAlert,
 } from "../Services/socket";
 import { useServerUrl } from "./useServerUrl";
+
 const useUserLogin = () => {
   const [loading, setLoading] = useState(false);
   const { setToken } = useToken();
@@ -24,6 +25,8 @@ const useUserLogin = () => {
   const { setAlert } = useAlert();
   const { setTypes } = useTypes();
   const { ServerUrl } = useServerUrl();
+
+  // * login user with username and password
   const loginUser = async (username, password) => {
     setLoading(true);
     try {
@@ -35,7 +38,7 @@ const useUserLogin = () => {
       if (response.status == 200) {
         const userToken = response.data.token;
         setToken(userToken);
-        loginUserWithToken(userToken);
+        await loginUserWithToken(userToken);
         setLoading(false);
         return true;
       } else {
@@ -51,10 +54,13 @@ const useUserLogin = () => {
     return false;
   };
 
+  // * login user with token
   const loginUserWithToken = async (userToken) => {
+    const currentServerUrl = await retrieveData("currentServerUrl");
+    console.log("currentServerUrl", currentServerUrl);
     try {
       const data = await useFetch(
-        `${ServerUrl}/api/front/data`,
+        `${currentServerUrl}/api/front/data`,
         userToken,
         "fetch data"
       );
@@ -64,7 +70,7 @@ const useUserLogin = () => {
         // console.log("Notifications");
         OneSignal.Notifications.requestPermission(true);
       }
-      // console.log(data.types);
+      // console.log("[loginUserWithToken]currentUser", data.currentUser);
       setUser(data.currentUser);
       setTypes(data.types);
       setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
@@ -83,7 +89,7 @@ const useUserLogin = () => {
       // });
       return true;
     } catch (error) {
-      console.log("[loginUserWithToken] Error", error);
+      console.log("[loginUserWithToken]", error);
     }
     return false;
   };

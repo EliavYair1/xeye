@@ -11,6 +11,7 @@ const AlertThumbnail = ({ alert }) => {
   const handleAlertPress = async () => {
     router.push("/alertscreen");
   };
+
   useEffect(() => {
     if (alert) {
       console.log("new alert", alert);
@@ -18,6 +19,7 @@ const AlertThumbnail = ({ alert }) => {
       console.log("no alerts to display...");
     }
   }, [alert]);
+
   return (
     <View style={styles.container}>
       {alert ? (

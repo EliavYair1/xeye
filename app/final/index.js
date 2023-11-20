@@ -7,25 +7,16 @@ import { CheckmarkIcon, RateStar } from "../../UI/SvgIcon";
 import { BoldText, MediumText } from "../../utiles/Fonts";
 import LogoutNav from "../home/logoutNav/logoutNav";
 import Button from "../../UI/Button";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import fonts from "../../styles/fonts";
 import { formatTime } from "../../Services/TimeFormatter";
-import { useAlert } from "../../Hooks/useAlert";
-import useUserLogin from "../../Hooks/useUserLogin";
-import { useToken } from "../../Hooks/useToken";
 const statusBarHeight = Constants.statusBarHeight;
 const FinalScreen = () => {
-  const { alert } = useAlert();
-  const calculatedDate = new Date() - new Date(alert.assignedAt);
-  const { loginUserWithToken } = useUserLogin();
-  const { token } = useToken();
-
+  const { calculatedDate } = useLocalSearchParams();
   const handleBackToMainScreen = async () => {
-    console.log("time recorded", formatTime(calculatedDate));
-    await loginUserWithToken(token);
     setTimeout(() => router.replace("/home"), 10);
   };
-  // console.log("time", formatTime(calculatedDate));
+
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}

@@ -16,34 +16,36 @@ import {
   initializeSocket,
   subscribeToChangeAlert,
 } from "../../Services/socket";
+import { useServerUrl } from "../../Hooks/useServerUrl";
+import { useToken } from "../../Hooks/useToken";
 
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
-  // const { loading } = useUserLogin();
   const { user, setUser, loading } = useUser();
   const { alert, setAlert } = useAlert();
-  // const { ServerUrl } = useServerUrl();›
-  // console.log(`[Home] ${ServerUrl}:5000/`);
+  const { ServerUrl } = useServerUrl();
+  const { token } = useToken();
+
   useEffect(() => {
-    initializeSocket();
-
-    if (user) {
-      // * subscribe to changeAlert event with currentUser
-      subscribeToChangeAlert(user, (alert) => {
-        if (alert) {
-          setAlert(alert);
-        } else {
-          console.log("Alert false !");
-        }
-      });
+    if (ServerUrl) {
+      initializeSocket(`${ServerUrl}:5000/`);
+      if (user) {
+        // * subscribe to changeAlert event with currentUser
+        subscribeToChangeAlert(user, (alert) => {
+          if (alert) {
+            setAlert(alert);
+          } else {
+            console.log("Alert false!");
+          }
+        });
+      }
     }
-  }, [user]);
+  }, [user, ServerUrl]);
 
-  console.log("[Home]loading", loading);
+  // console.log("id", user);
+  // console.log("alert", alert);
+  // console.log("token", token);
 
-  console.log("[Home]user", user);
-  // ! error when user is first login get false as default from the useuser hook and display undefined values
-  // ! only disply the current user object on second render
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}

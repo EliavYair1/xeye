@@ -68,7 +68,7 @@ const LoginWindow = () => {
 
         if (loginSuccess) {
           console.log("[LoginWindow] token:", loginSuccess);
-          router.replace("/home");
+          setTimeout(() => router.replace("/home"), 10);
         }
       }
     } catch (loginError) {

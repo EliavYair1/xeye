@@ -18,7 +18,6 @@ const AlertScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { alert } = useAlert();
   // const isMounted = useRef(false);
-  // console.log("alert", alert);
 
   // useEffect(() => {
   //   console.log("is mounted", isMounted.current && !alert);
@@ -32,7 +31,6 @@ const AlertScreen = () => {
     setIsLoading(loading);
   };
 
-  console.log("alert", alert);
   return (
     <ScreenWrapper
       isConnectedUser={false}

@@ -8,7 +8,6 @@ import "@env";
 import axios from "axios";
 import Loader from "../../../utiles/Loader";
 import { retrieveData } from "../../../Auth/StorageService";
-import { useDispatch } from "react-redux";
 import { setOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
 import { router } from "expo-router";
 import { useToken } from "../../../Hooks/useToken";
@@ -22,14 +21,13 @@ const AlertButton = ({ toggleLoading }) => {
   const [buttonText, setButtonText] = useState("Accept");
   const { token } = useToken();
   const { ServerUrl } = useServerUrl();
-  const { alert } = useAlert();
+  const { alert, setAlert } = useAlert();
   // const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
+  // todo to apply req for status : accepted and change the navbar accordingly
   const onAcceptPress = async () => {
     setButtonColor("#529739");
     setButtonText("Resolved");
   };
-
   const onResolved = async (status) => {
     // console.log("in", token);
     toggleLoading(true);
@@ -52,8 +50,17 @@ const AlertButton = ({ toggleLoading }) => {
       toggleLoading(false);
       console.log("status", response.status);
       if (response.status == 200) {
-        dispatch(setOnlineStatus(false));
-        setTimeout(() => router.replace("/final"), 10);
+        const calculatedDate = new Date() - new Date(alert.assignedAt);
+        console.log(calculatedDate);
+        setAlert(false);
+        setTimeout(
+          () =>
+            router.replace({
+              pathname: "/final",
+              params: { calculatedDate },
+            }),
+          10
+        );
       }
     } catch (error) {
       toggleLoading(false);
