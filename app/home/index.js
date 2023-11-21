@@ -34,8 +34,8 @@ export default function Home() {
           if (alert) {
             setAlert(alert);
           } else {
-            console.log("Alert false!");
             // * if the user is not matched with or resolved from the spotter then alert false.
+            console.log("Alert false!");
             setAlert(false);
           }
         });

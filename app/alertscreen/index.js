@@ -26,7 +26,6 @@ const AlertScreen = () => {
   const { alert, setAlert } = useAlert();
   const { ServerUrl } = useServerUrl();
   const { user } = useUser();
-  // const isMounted = useRef(false);
 
   // useEffect(() => {
   //   console.log("is mounted", isMounted.current && !alert);
@@ -35,7 +34,6 @@ const AlertScreen = () => {
   //   }
   //   isMounted.current = true;
   // }, [alert])
-
   useEffect(() => {
     if (ServerUrl) {
       initializeSocket(`${ServerUrl}:5000/`);
@@ -46,6 +44,11 @@ const AlertScreen = () => {
             setAlert(alert);
           } else {
             console.log("Alert false!");
+            // setAlert(false);
+
+            // if (!alert) {
+            //   router.back();
+            // }
           }
         });
       }
@@ -56,7 +59,8 @@ const AlertScreen = () => {
     setIsLoading(loading);
   };
 
-  console.log("[Home]AlertScreen", alert?.status);
+  // console.log("[Home]AlertScreen", alert?.status);
+
   return (
     <ScreenWrapper
       isConnectedUser={false}

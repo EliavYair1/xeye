@@ -14,7 +14,8 @@ const AlertThumbnail = ({ alert }) => {
 
   useEffect(() => {
     if (alert) {
-      console.log("new alert", alert);
+      console.log("new alert");
+      // console.log("new alert", alert);
     } else {
       console.log("no alerts to display...");
     }

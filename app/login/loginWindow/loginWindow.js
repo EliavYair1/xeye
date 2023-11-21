@@ -87,7 +87,6 @@ const LoginWindow = () => {
     }
   };
 
-  console.log(ServerUrl);
   return (
     <ScreenWrapper
       isForm={true}

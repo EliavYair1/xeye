@@ -23,10 +23,8 @@ const AlertButton = ({ toggleLoading }) => {
   const { ServerUrl } = useServerUrl();
   const { alert, setAlert } = useAlert();
   // const [isLoading, setIsLoading] = useState(false);
-  // todo to apply req for status : accepted and change the navbar accordingly
 
   const onResolved = async (status) => {
-    // console.log("in", token);
     toggleLoading(true);
     try {
       // console.log("in", agentId);
@@ -48,7 +46,7 @@ const AlertButton = ({ toggleLoading }) => {
       console.log("status", response.status);
       if (response.status == 200) {
         const calculatedDate = new Date() - new Date(alert.assignedAt);
-        console.log(calculatedDate);
+        // console.log(calculatedDate);
         setAlert(false);
         setTimeout(
           () =>
@@ -85,14 +83,12 @@ const AlertButton = ({ toggleLoading }) => {
   const getStatusString = (selectedIndex) => {
     switch (selectedIndex) {
       case 0:
-        return "accepted";
-      case 1:
         return "resolved-false-alert";
-      case 2:
+      case 1:
         return "resolved-naive";
-      case 3:
+      case 2:
         return "resolved-authorized";
-      case 4:
+      case 3:
         return "resolved-real-suspect";
       default:
         return null;
