@@ -27,13 +27,7 @@ const AlertScreen = () => {
   const { ServerUrl } = useServerUrl();
   const { user } = useUser();
 
-  // useEffect(() => {
-  //   console.log("is mounted", isMounted.current && !alert);
-  //   if (isMounted.current && !alert) {
-  //     router.back();
-  //   }
-  //   isMounted.current = true;
-  // }, [alert])
+  // * temp
   useEffect(() => {
     if (ServerUrl) {
       initializeSocket(`${ServerUrl}:5000/`);
