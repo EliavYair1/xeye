@@ -19,14 +19,13 @@ const LoginWindow = () => {
 
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const { setServerUrl, ServerUrl } = useServerUrl();
-  // todo make sure the value of server dont get error when the input is full
   const [formData, setFormData] = useState({});
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { loading, loginUser } = useUserLogin();
   // const { setServerUrl } = useToken();
   const schema = yup.object().shape({
-    server: yup.string().required("server url is required"),
+    server: !formData.server && yup.string().required("server url is required"),
     username: yup.string().required("username is required"),
     password: yup
       .string()
@@ -36,6 +35,8 @@ const LoginWindow = () => {
   const {
     control,
     handleSubmit,
+    trigger,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -58,6 +59,16 @@ const LoginWindow = () => {
     setIsSchemaValid(true);
   };
 
+  useEffect(() => {
+    if (ServerUrl) {
+      handleInputChange("server", ServerUrl);
+      setValue("server", ServerUrl);
+    } else {
+      handleInputChange("server", "");
+      setValue("server", "");
+    }
+  }, [ServerUrl]);
+
   const handleLogin = async () => {
     const server = formData.server;
     const username = formData.username;
@@ -76,7 +87,7 @@ const LoginWindow = () => {
     }
   };
 
-  // console.log(token);
+  console.log(ServerUrl);
   return (
     <ScreenWrapper
       isForm={true}
@@ -116,9 +127,9 @@ const LoginWindow = () => {
                   handleInputChange("server", value);
                   console.log("server", value);
                   setServerUrl(value);
-                  // setServerUrl((prev) => {
-                  //   prev, value;
-                  // });
+
+                  setValue("server", value);
+                  trigger("server");
                 }}
                 onSubmitEditing={() => userInputRef.current.focus()}
                 leftIcon={
