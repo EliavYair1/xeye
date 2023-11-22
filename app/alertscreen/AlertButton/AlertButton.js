@@ -15,7 +15,7 @@ import { useAlert } from "../../../Hooks/useAlert";
 import { useServerUrl } from "../../../Hooks/useServerUrl";
 
 const windowWidth = Dimensions.get("screen").width;
-const AlertButton = ({ toggleLoading }) => {
+const AlertButton = ({ toggleLoading, callback }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [buttonColor, setButtonColor] = useState("#1D69C5");
   const [buttonText, setButtonText] = useState("Accept");
@@ -78,6 +78,7 @@ const AlertButton = ({ toggleLoading }) => {
         },
       }
     );
+    callback();
   };
 
   const getStatusString = (selectedIndex) => {

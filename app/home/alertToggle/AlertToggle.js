@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import axios from "axios";
 import "@env";
-import { retrieveData } from "../../../Auth/StorageService";
 import { useToken } from "../../../Hooks/useToken";
 import { useServerUrl } from "../../../Hooks/useServerUrl";
-// todo restyle the toggle switch
+
 const AlertToggle = ({ callback, user }) => {
   const [isOnline, setIsOnline] = useState(false);
   const { ServerUrl } = useServerUrl();
@@ -21,7 +20,6 @@ const AlertToggle = ({ callback, user }) => {
 
   const changeUserStatus = async (status) => {
     // const userToken = await retrieveData("currentToken");
-    // console.log("userToken", userToken);
     try {
       console.log("status", strConversion(status));
       let url = `${ServerUrl}/api/front/users/${user._id}`;

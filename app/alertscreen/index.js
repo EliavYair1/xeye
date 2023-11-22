@@ -48,11 +48,13 @@ const AlertScreen = () => {
       }
     }
   }, [user, ServerUrl, alert]);
-
   const toggleLoading = (loading) => {
     setIsLoading(loading);
   };
 
+  const updateAlertNavbar = () => {
+    setAlert((prev) => ({ ...prev, status: "Accepted" }));
+  };
   // console.log("[Home]AlertScreen", alert?.status);
 
   return (
@@ -62,7 +64,7 @@ const AlertScreen = () => {
       edges={[""]}
     >
       <AlertNavBar
-        statusColor={"red"}
+        statusColor={"#992D30"}
         alertNumber={alert?.alertNumber}
         alert={alert}
         time={alert?.createdAt}
@@ -78,7 +80,11 @@ const AlertScreen = () => {
           alert={alert}
         />
       </View>
-      <AlertButton agentId={alert?._id} toggleLoading={toggleLoading} />
+      <AlertButton
+        agentId={alert?._id}
+        toggleLoading={toggleLoading}
+        callback={updateAlertNavbar}
+      />
     </ScreenWrapper>
   );
 };

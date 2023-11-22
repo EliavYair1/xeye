@@ -8,7 +8,6 @@ import Constants from "expo-constants";
 import AgentInfoStatus from "./agentInfoStatus/agentInfoStatus";
 import { BoldText } from "../../utiles/Fonts";
 import AlertThumbnail from "./AlertThumbnail/AlertThumbnail";
-
 import { useUser } from "../../Hooks/useUser";
 import { useAlert } from "../../Hooks/useAlert";
 import AlertToggle from "./alertToggle/AlertToggle";
@@ -17,14 +16,12 @@ import {
   subscribeToChangeAlert,
 } from "../../Services/socket";
 import { useServerUrl } from "../../Hooks/useServerUrl";
-import { useToken } from "../../Hooks/useToken";
 
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { user, setUser, loading } = useUser();
   const { alert, setAlert } = useAlert();
   const { ServerUrl } = useServerUrl();
-
   useEffect(() => {
     if (ServerUrl) {
       initializeSocket(`${ServerUrl}:5000/`);
@@ -42,9 +39,6 @@ export default function Home() {
       }
     }
   }, [user, ServerUrl]);
-
-  // console.log("id", user);
-  // console.log("[Home]alert", alert?.status);
 
   return (
     <ScreenWrapper

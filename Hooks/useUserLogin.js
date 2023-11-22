@@ -73,22 +73,8 @@ const useUserLogin = () => {
       // console.log("[loginUserWithToken]currentUser", data.currentUser);
       setUser(data.currentUser);
       setTypes(data.types);
-
       // setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
       setAlert(data.alerts ? data.alerts : false);
-      // todo align with nir if this code could run only on the home screen
-      // initializeSocket();
-      // // * subscribe to changeAlert event with currentUser
-      // subscribeToChangeAlert(data.currentUser, (alert) => {
-      //   if (alert) {
-      //     console.log("callback is true, perform actions...");
-      //     // setAlert(data.alerts[0]);
-      //     setAlert(alert);
-      //   } else {
-      //     console.log("callback is false, handle false alert...");
-      //     // setAlert(false);
-      //   }
-      // });
       return true;
     } catch (error) {
       console.log("[loginUserWithToken]", error);
