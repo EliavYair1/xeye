@@ -1,27 +1,22 @@
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, View, Dimensions } from "react-native";
+import React from "react";
 import Button from "../../../UI/Button";
 import Fonts from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import "@env";
 import axios from "axios";
-import Loader from "../../../utiles/Loader";
-import { retrieveData } from "../../../Auth/StorageService";
-import { setOnlineStatus } from "../../../store/redux/reducers/onlineStatusSlice";
 import { router } from "expo-router";
 import { useToken } from "../../../Hooks/useToken";
 import { useAlert } from "../../../Hooks/useAlert";
 import { useServerUrl } from "../../../Hooks/useServerUrl";
 
 const windowWidth = Dimensions.get("screen").width;
-const AlertButton = ({ toggleLoading, callback }) => {
+const AlertButton = ({ toggleLoading, callback, alert }) => {
   const { showActionSheetWithOptions } = useActionSheet();
-  const [buttonColor, setButtonColor] = useState("#1D69C5");
-  const [buttonText, setButtonText] = useState("Accept");
   const { token } = useToken();
   const { ServerUrl } = useServerUrl();
-  const { alert, setAlert } = useAlert();
+  const { setAlert } = useAlert();
   // const [isLoading, setIsLoading] = useState(false);
 
   const onResolved = async (status) => {
@@ -64,9 +59,6 @@ const AlertButton = ({ toggleLoading, callback }) => {
   };
 
   const onAcceptPress = async () => {
-    setButtonColor("#529739");
-    setButtonText("Resolved");
-
     await axios.put(
       `${ServerUrl}/api/front/alert/${alert?._id}/status`,
       {
@@ -96,7 +88,7 @@ const AlertButton = ({ toggleLoading, callback }) => {
     }
   };
 
-  const onPress = async () => {
+  const onResolvePress = async () => {
     const options = [
       "False alert",
       "Naive",
@@ -127,49 +119,24 @@ const AlertButton = ({ toggleLoading, callback }) => {
 
   return (
     <View>
-      {buttonText == "Accept" ? (
-        <>
-          <Button
-            buttonFunction={() => {
-              onAcceptPress();
-            }}
-            buttonText={buttonText}
-            buttonWidth={windowWidth - 32}
-            disableLogic={false}
-            buttonTextStyle={{
-              color: colors.white,
-              fontSize: 16,
-              fontFamily: Fonts.SemiBold,
-            }}
-            buttonStyle={{
-              backgroundColor: buttonColor,
-              padding: 8,
-              borderRadius: 4,
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <Button
-            buttonFunction={() => {
-              onPress();
-            }}
-            buttonText={buttonText}
-            buttonWidth={windowWidth - 32}
-            disableLogic={false}
-            buttonTextStyle={{
-              color: colors.white,
-              fontSize: 16,
-              fontFamily: Fonts.SemiBold,
-            }}
-            buttonStyle={{
-              backgroundColor: buttonColor,
-              padding: 8,
-              borderRadius: 4,
-            }}
-          />
-        </>
-      )}
+      <Button
+        buttonFunction={() => {
+          alert.status === "assigned" ? onAcceptPress() : onResolvePress();
+        }}
+        buttonText={alert.status === "assigned" ? "Accept" : "Resolve"}
+        buttonWidth={windowWidth - 32}
+        disableLogic={false}
+        buttonTextStyle={{
+          color: colors.white,
+          fontSize: 16,
+          fontFamily: Fonts.SemiBold,
+        }}
+        buttonStyle={{
+          backgroundColor: alert.status === "assigned" ? "#1D69C5" : "#529739",
+          padding: 8,
+          borderRadius: 4,
+        }}
+      />
     </View>
   );
 };

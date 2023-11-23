@@ -11,34 +11,28 @@ import AlertThumbnail from "./AlertThumbnail/AlertThumbnail";
 import { useUser } from "../../Hooks/useUser";
 import { useAlert } from "../../Hooks/useAlert";
 import AlertToggle from "./alertToggle/AlertToggle";
-import {
-  initializeSocket,
-  subscribeToChangeAlert,
-} from "../../Services/socket";
-import { useServerUrl } from "../../Hooks/useServerUrl";
+import { subscribeToChangeAlert } from "../../Services/socket";
 
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
   const { user, setUser, loading } = useUser();
   const { alert, setAlert } = useAlert();
-  const { ServerUrl } = useServerUrl();
+
   useEffect(() => {
-    if (ServerUrl) {
-      initializeSocket(`${ServerUrl}:5000/`);
-      if (user) {
-        // * subscribe to changeAlert event with currentUser
-        subscribeToChangeAlert(user, (alert) => {
-          if (alert) {
-            setAlert(alert);
-          } else {
-            // * if the user is not matched with or resolved from the spotter then alert false.
-            console.log("Alert false!");
-            setAlert(false);
-          }
-        });
-      }
+    if (user) {
+      // * subscribe to changeAlert event with currentUser
+      subscribeToChangeAlert(user, (alert) => {
+        console.log("subscribeToChangeAlert home");
+        if (alert) {
+          setAlert(alert);
+        } else {
+          // * if the user is not matched with or resolved from the spotter then alert false.
+          console.log("Alert false!");
+          setAlert(false);
+        }
+      });
     }
-  }, [user, ServerUrl]);
+  }, [user]);
 
   return (
     <ScreenWrapper

@@ -23,7 +23,7 @@ const LoginWindow = () => {
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { loading, loginUser } = useUserLogin();
-  // const { setServerUrl } = useToken();
+
   const schema = yup.object().shape({
     server: !formData.server && yup.string().required("server url is required"),
     username: yup.string().required("username is required"),
@@ -88,11 +88,7 @@ const LoginWindow = () => {
   };
 
   return (
-    <ScreenWrapper
-      isForm={true}
-      wrapperStyle={styles.container}
-      // newReportBackGroundImg={"../../../assets/background/background.png"}
-    >
+    <ScreenWrapper isForm={true} wrapperStyle={styles.container}>
       {loading ? (
         <Loader size={"large"} color={colors.white} visible={loading} />
       ) : (
@@ -141,14 +137,6 @@ const LoginWindow = () => {
                       setServerUrl("");
                     }}
                   />
-                  // <TextInput.Icon icon="account" color={colors.white} />
-                  // <>
-                  //   <CustomIcon
-                  //     image={require("../../../assets/icons/user.png")}
-                  //     size={16}
-                  //     color={colors.white}
-                  //   />
-                  // </>
                 }
               />
               <Input
@@ -170,14 +158,6 @@ const LoginWindow = () => {
                 leftIcon={
                   //todo import the icon imgs
                   <TextInput.Icon icon="account" color={colors.white} />
-                  // <TextInput.Icon icon="account" color={colors.white} />
-                  // <>
-                  //   <CustomIcon
-                  //     image={require("../../../assets/icons/user.png")}
-                  //     size={16}
-                  //     color={colors.white}
-                  //   />
-                  // </>
                 }
               />
 

@@ -1,53 +1,41 @@
 import { StyleSheet, View, Dimensions } from "react-native";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect } from "react";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
 import Constants from "expo-constants";
 import colors from "../../styles/colors";
 import TargetThreat from "../home/AlertThumbnail/TargetThreat/TargetThreat";
 
-import Loader from "../../utiles/Loader";
 import AlertButton from "./AlertButton/AlertButton";
 import { useAlert } from "../../Hooks/useAlert";
 import AlertNavBar from "./AlertNavBar/AlertNavBar";
 import { router } from "expo-router";
-import { useServerUrl } from "../../Hooks/useServerUrl";
 import { useUser } from "../../Hooks/useUser";
-import {
-  initializeSocket,
-  subscribeToChangeAlert,
-} from "../../Services/socket";
+import { subscribeToChangeAlert } from "../../Services/socket";
 
 const statusBarHeight = Constants.statusBarHeight;
 const windowWidth = Dimensions.get("screen").width;
 const windowHeight = Dimensions.get("screen").height;
 
 const AlertScreen = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const { alert, setAlert } = useAlert();
-  const { ServerUrl } = useServerUrl();
   const { user } = useUser();
 
   // * temp
   useEffect(() => {
-    if (ServerUrl) {
-      initializeSocket(`${ServerUrl}:5000/`);
-      if (user) {
-        // * subscribe to changeAlert event with currentUser
-        subscribeToChangeAlert(user, (alert) => {
-          if (alert) {
-            setAlert(alert);
-          } else {
-            console.log("Alert false!");
-            // setAlert(false);
-
-            // if (!alert) {
-            //   router.back();
-            // }
-          }
-        });
-      }
+    if (user) {
+      // * subscribe to changeAlert event with currentUser
+      subscribeToChangeAlert(user, (alert) => {
+        if (alert) {
+          setAlert(alert);
+        } else {
+          console.log("Alert false!");
+          setAlert(false);
+          router.replace("/home");
+        }
+      });
     }
-  }, [user, ServerUrl, alert]);
+  }, [user]);
+
   const toggleLoading = (loading) => {
     setIsLoading(loading);
   };
@@ -63,14 +51,7 @@ const AlertScreen = () => {
       wrapperStyle={styles.container}
       edges={[""]}
     >
-      <AlertNavBar
-        statusColor={"#992D30"}
-        alertNumber={alert?.alertNumber}
-        alert={alert}
-        time={alert?.createdAt}
-        type={alert?.type}
-        status={alert?.status}
-      />
+      <AlertNavBar statusColor={"#992D30"} alert={alert} />
       <View style={styles.imageWrapper}>
         <TargetThreat
           imageHeight={windowHeight - 200}
@@ -84,6 +65,7 @@ const AlertScreen = () => {
         agentId={alert?._id}
         toggleLoading={toggleLoading}
         callback={updateAlertNavbar}
+        alert={alert}
       />
     </ScreenWrapper>
   );

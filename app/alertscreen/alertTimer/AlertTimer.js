@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import colors from "../../../styles/colors";
 import { formatTime } from "../../../Services/TimeFormatter";
-const AlertTimer = ({ isOnline, alert }) => {
+const AlertTimer = ({ alert }) => {
   const [timeDiff, settimeDiff] = useState(
     new Date() - new Date(alert.assignedAt)
   );

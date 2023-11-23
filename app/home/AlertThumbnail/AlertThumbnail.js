@@ -8,6 +8,7 @@ import TargetThreat from "./TargetThreat/TargetThreat";
 import { useEffect } from "react";
 const windowWidth = Dimensions.get("screen").width;
 const AlertThumbnail = ({ alert }) => {
+  console.log("AlertThumbnail");
   const handleAlertPress = async () => {
     router.push("/alertscreen");
   };

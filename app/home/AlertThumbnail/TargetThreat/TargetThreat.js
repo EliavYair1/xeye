@@ -1,15 +1,7 @@
 import React from "react";
-import { View, ImageBackground, Dimensions } from "react-native";
-import { GunIcon } from "../../../../UI/SvgIcon";
+import { View, ImageBackground } from "react-native";
 
-const windowWidth = Dimensions.get("screen").width;
-const TargetThreat = ({
-  imageWidth,
-  imageHeight,
-  gunBgWidth,
-  gunBgHeight,
-  alert,
-}) => {
+const TargetThreat = ({ imageWidth, imageHeight, alert }) => {
   if (!alert || !alert.snapshot) {
     return <View></View>;
   }

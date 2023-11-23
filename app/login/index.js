@@ -1,10 +1,7 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet } from "react-native";
 import ScreenWrapper from "../../utiles/ScreenWrapper";
-import colors from "../../styles/colors";
-import background from "../../assets/background/background.png";
 import LoginWindow from "./loginWindow/loginWindow";
 const Login = () => {
-  // eliav s465erydgfhg
   return (
     <ScreenWrapper
       wrapperStyle={styles.container}

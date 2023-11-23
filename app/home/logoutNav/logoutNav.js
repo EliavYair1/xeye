@@ -1,11 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { MediumText } from "../../../utiles/Fonts";
-import { removeData } from "../../../Auth/StorageService";
 import useUserLogin from "../../../Hooks/useUserLogin";
 import { router } from "expo-router";
 import colors from "../../../styles/colors";
-import Logo from "../../../assets/imgs/xeyeLogo.png";
 const LogoutNav = () => {
   const { logoutUser, loading } = useUserLogin();
 

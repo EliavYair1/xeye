@@ -2,15 +2,12 @@ import { StyleSheet, View } from "react-native";
 import React from "react";
 import { MediumText, BoldText } from "../../../utiles/Fonts";
 import colors from "../../../styles/colors";
-import { useUser } from "../../../Hooks/useUser";
 import AlertTimer from "../alertTimer/AlertTimer";
 import { useTypes } from "../../../Hooks/useType";
 
 import { getAlertIcon } from "../../../Services/alertIconToDisplay";
-import { SvgXml } from "react-native-svg";
 
 const AlertNavBar = ({ statusColor, alert }) => {
-  const { user } = useUser();
   const { types } = useTypes();
   const timeFormat = (timestamp) => {
     const date = new Date(timestamp);
@@ -43,7 +40,7 @@ const AlertNavBar = ({ statusColor, alert }) => {
       </BoldText>
       <View style={styles.separator} />
 
-      <AlertTimer isOnline={user.status == "online"} alert={alert} />
+      <AlertTimer alert={alert} />
     </View>
   );
 };

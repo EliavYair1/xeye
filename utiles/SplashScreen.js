@@ -10,7 +10,7 @@ import {
   ImageBackground,
 } from "react-native";
 import colors from "../styles/colors";
-import background from "../assets/spalshScreen/splashScreen.png";
+import background from "../assets/splash.png";
 
 const SplashScreenComponent = ({ onLoaded }) => {
   useEffect(() => {
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
   backgroundImage: {
     // flex: 1,r
     resizeMode: "cover",
-    width: 369,
-    height: 231,
+    width: "100%",
+    height: "100%",
   },
 });
 

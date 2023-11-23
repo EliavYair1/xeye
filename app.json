@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "scheme": "xeye",
     "splash": {
-      "image": "./assets/imgs/xeyeLogo.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#05052F"
     },
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/imgs/xeyeLogo.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.moburst.xeye"
