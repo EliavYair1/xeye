@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { I18nManager, StyleSheet } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import {
   Stack,
@@ -24,6 +24,9 @@ import { useToken } from "../Hooks/useToken";
 import useUserLogin from "../Hooks/useUserLogin";
 import { initializeSocket } from "../Services/socket";
 import { useServerUrl } from "../Hooks/useServerUrl";
+
+I18nManager.forceRTL(false);
+I18nManager.allowRTL(false);
 export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: "splash",

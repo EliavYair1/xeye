@@ -37,7 +37,7 @@ const AlertScreen = () => {
   }, [user]);
 
   const toggleLoading = (loading) => {
-    setIsLoading(loading);
+    // setIsLoading(loading);
   };
 
   const updateAlertNavbar = () => {

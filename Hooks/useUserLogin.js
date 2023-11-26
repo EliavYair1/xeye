@@ -11,11 +11,7 @@ import { OneSignal } from "react-native-onesignal";
 import { useAlert } from "./useAlert";
 import { useTypes } from "./useType";
 
-import {
-  disconnectSocket,
-  initializeSocket,
-  subscribeToChangeAlert,
-} from "../Services/socket";
+import { disconnectSocket } from "../Services/socket";
 import { useServerUrl } from "./useServerUrl";
 
 const useUserLogin = () => {
@@ -30,6 +26,10 @@ const useUserLogin = () => {
   const loginUser = async (username, password) => {
     setLoading(true);
     try {
+      console.log("trying to login", `${ServerUrl}/api/auth`, {
+        username,
+        password,
+      });
       const response = await axios.post(`${ServerUrl}/api/auth`, {
         username,
         password,
@@ -43,11 +43,12 @@ const useUserLogin = () => {
         return true;
       } else {
         console.error("Login failed:", response.status);
+        Alert.alert("Login Error", response.status);
       }
     } catch (error) {
       console.error("Login failed:", error);
 
-      Alert.alert("Login Error", `wrong password or username`);
+      Alert.alert("Login Error", error);
     } finally {
       setLoading(false);
     }
@@ -65,10 +66,12 @@ const useUserLogin = () => {
         "fetch data"
       );
 
-      OneSignal.login(data.currentUser._id);
-      if (OneSignal.Notifications.canRequestPermission) {
-        // console.log("Notifications");
-        OneSignal.Notifications.requestPermission(true);
+      if (OneSignal.Notifications.canRequestPermission()) {
+        console.log("Notifications", data.currentUser._id);
+        OneSignal.Notifications.requestPermission(true).then(() => {
+          console.log("Notifications requestPermission");
+          OneSignal.login(data.currentUser._id);
+        });
       }
       // console.log("[loginUserWithToken]currentUser", data.currentUser);
       setUser(data.currentUser);

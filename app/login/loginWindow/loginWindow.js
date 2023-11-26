@@ -14,6 +14,7 @@ import fonts from "../../../styles/fonts";
 import { router } from "expo-router";
 import "@env";
 import { useServerUrl } from "../../../Hooks/useServerUrl";
+import { initializeSocket } from "../../../Services/socket";
 const LoginWindow = () => {
   const [isSchemaValid, setIsSchemaValid] = useState(false);
 
@@ -79,6 +80,7 @@ const LoginWindow = () => {
 
         if (loginSuccess) {
           console.log("[LoginWindow] token:", loginSuccess);
+          initializeSocket(`${ServerUrl}:5000/`);
           setTimeout(() => router.replace("/home"), 10);
         }
       }
@@ -112,7 +114,7 @@ const LoginWindow = () => {
                 mode={"flat"}
                 secureTextEntry={false}
                 returnKeyType={"next"}
-                value={ServerUrl}
+                value={ServerUrl ? ServerUrl : ""}
                 numeric={false}
                 underlineColor={"#0C1430"}
                 contentStyle={styles.inputContentStyling}
