@@ -9,7 +9,7 @@
     "scheme": "xeye",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#05052F"
     },
     "assetBundlePatterns": [
@@ -34,9 +34,14 @@
       [
         "onesignal-expo-plugin",
         {
-          "mode": "development",
+          "mode": "development"
         }
-      ]
+      ],
+      ["expo-build-properties", {
+        "android": {
+          "usesCleartextTraffic": true
+        }
+      }]
     ],
     "extra": {
       "oneSignalAppId": "0874622b-bcb9-4ab6-a5cd-4380762cb757",

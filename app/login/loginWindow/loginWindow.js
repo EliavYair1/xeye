@@ -21,6 +21,7 @@ const LoginWindow = () => {
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const { setServerUrl, ServerUrl } = useServerUrl();
   const [formData, setFormData] = useState({});
+  const [serverUrlLocal, setServerUrlLocal] = useState("");
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { loading, loginUser } = useUserLogin();
@@ -62,11 +63,7 @@ const LoginWindow = () => {
 
   useEffect(() => {
     if (ServerUrl) {
-      handleInputChange("server", ServerUrl);
-      setValue("server", ServerUrl);
-    } else {
-      handleInputChange("server", "");
-      setValue("server", "");
+      setServerUrlLocal(ServerUrl);
     }
   }, [ServerUrl]);
 
@@ -74,13 +71,14 @@ const LoginWindow = () => {
     const server = formData.server;
     const username = formData.username;
     const password = formData.password;
+    setServerUrl(server);
     try {
       if (isSchemaValid) {
-        const loginSuccess = await loginUser(username, password);
+        const loginSuccess = await loginUser(server, username, password);
 
         if (loginSuccess) {
           console.log("[LoginWindow] token:", loginSuccess);
-          initializeSocket(`${ServerUrl}:5000/`);
+          initializeSocket(`${server}:5000/`);
           setTimeout(() => router.replace("/home"), 10);
         }
       }
@@ -114,7 +112,7 @@ const LoginWindow = () => {
                 mode={"flat"}
                 secureTextEntry={false}
                 returnKeyType={"next"}
-                value={ServerUrl ? ServerUrl : ""}
+                value={serverUrlLocal}
                 numeric={false}
                 underlineColor={"#0C1430"}
                 contentStyle={styles.inputContentStyling}
@@ -123,10 +121,10 @@ const LoginWindow = () => {
                 onChangeFunction={(value) => {
                   handleInputChange("server", value);
                   console.log("server", value);
-                  setServerUrl(value);
+                  setServerUrlLocal(value);
 
-                  setValue("server", value);
-                  trigger("server");
+                  // setValue("server", value);
+                  // trigger("server");
                 }}
                 onSubmitEditing={() => userInputRef.current.focus()}
                 leftIcon={
@@ -134,10 +132,10 @@ const LoginWindow = () => {
                   <TextInput.Icon
                     icon="server"
                     color={colors.white}
-                    onPress={() => {
-                      console.log("server press");
-                      setServerUrl("");
-                    }}
+                    // onPress={() => {
+                    //   console.log("server press");
+                    //   setServerUrl("");
+                    // }}
                   />
                 }
               />

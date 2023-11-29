@@ -12,6 +12,7 @@ import { useUser } from "../../Hooks/useUser";
 import { useAlert } from "../../Hooks/useAlert";
 import AlertToggle from "./alertToggle/AlertToggle";
 import { subscribeToChangeAlert } from "../../Services/socket";
+import { OneSignal } from "react-native-onesignal";
 
 const statusBarHeight = Constants.statusBarHeight;
 export default function Home() {
@@ -31,6 +32,27 @@ export default function Home() {
           setAlert(false);
         }
       });
+
+      const handlePushRegister = async () => {
+        if (
+          !OneSignal.Notifications.hasPermission() &&
+          (await OneSignal.Notifications.canRequestPermission())
+        ) {
+          console.log(
+            "Notifications",
+            user._id,
+            OneSignal.Notifications.hasPermission()
+          );
+          OneSignal.Notifications.requestPermission(true).then((permi) => {
+            console.log("notifictin status", permi);
+            if (permi || permi[0]) {
+              console.log("Notifications requestPermission");
+              OneSignal.login(user._id);
+            }
+          });
+        }
+      };
+      handlePushRegister();
     }
   }, [user]);
 

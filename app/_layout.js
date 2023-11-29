@@ -19,7 +19,7 @@ import Constants from "expo-constants";
 import ScreenWrapper from "../utiles/ScreenWrapper";
 import colors from "../styles/colors";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { LogLevel, OneSignal } from "react-native-onesignal";
+import { OneSignal } from "react-native-onesignal";
 import { useToken } from "../Hooks/useToken";
 import useUserLogin from "../Hooks/useUserLogin";
 import { initializeSocket } from "../Services/socket";
@@ -47,14 +47,14 @@ export default function Layout() {
   useEffect(() => {
     async function prepare() {
       ExpoSplashScreen.hideAsync();
-      OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+      // OneSignal.Debug.setLogLevel(LogLevel.Verbose);
       OneSignal.initialize(Constants.expoConfig.extra.oneSignalAppId);
       if (routerIsReady) {
+        console.log("token", token);
         if (!token) {
-          // router.replace("/login");
           setTimeout(() => router.replace("/login"), 10);
         } else {
-          const loginSuccess = await loginUserWithToken(token);
+          const loginSuccess = await loginUserWithToken(ServerUrl, token);
           if (loginSuccess) {
             initializeSocket(`${ServerUrl}:5000/`);
             setTimeout(() => router.replace("/home"), 10);
