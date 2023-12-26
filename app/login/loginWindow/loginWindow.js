@@ -20,6 +20,7 @@ const LoginWindow = () => {
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const { setServerUrl, ServerUrl } = useServerUrl();
   const [formData, setFormData] = useState({});
+  const [serverUrlLocal, setServerUrlLocal] = useState("");
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { loading, loginUser } = useUserLogin();
@@ -63,6 +64,7 @@ const LoginWindow = () => {
     const server = formData.server;
     const username = formData.username;
     const password = formData.password;
+    setServerUrl(server);
     try {
       const isValid = await trigger();
       console.log("isValid", isValid);
@@ -71,7 +73,7 @@ const LoginWindow = () => {
 
         if (loginSuccess) {
           console.log("[LoginWindow] token:", loginSuccess);
-          initializeSocket(`${ServerUrl}:5000/`);
+          initializeSocket(`${server}:5000/`);
           setTimeout(() => router.replace("/home"), 10);
         }
       }
@@ -126,10 +128,10 @@ const LoginWindow = () => {
                   <TextInput.Icon
                     icon="server"
                     color={colors.white}
-                    onPress={() => {
-                      console.log("server press");
-                      setServerUrl("");
-                    }}
+                    // onPress={() => {
+                    //   console.log("server press");
+                    //   setServerUrl("");
+                    // }}
                   />
                 }
               />

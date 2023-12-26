@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
-import { Alert, AsyncStorage } from "react-native";
-import { storeData, retrieveData, removeData } from "../Auth/StorageService";
+import { useState } from "react";
+import { Alert } from "react-native";
 import axios from "axios";
 
 import "@env";
 import { useToken } from "./useToken";
 import { useUser } from "./useUser";
 import useFetch from "./useFetch";
-import { OneSignal } from "react-native-onesignal";
 import { useAlert } from "./useAlert";
 import { useTypes } from "./useType";
 
 import { disconnectSocket } from "../Services/socket";
-import { useServerUrl } from "./useServerUrl";
 
 const useUserLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -20,10 +17,9 @@ const useUserLogin = () => {
   const { setUser } = useUser();
   const { setAlert } = useAlert();
   const { setTypes } = useTypes();
-  const { ServerUrl } = useServerUrl();
 
   // * login user with username and password
-  const loginUser = async (username, password) => {
+  const loginUser = async (ServerUrl, username, password) => {
     setLoading(true);
     try {
       console.log("trying to login", `${ServerUrl}/api/auth`, {
@@ -37,18 +33,18 @@ const useUserLogin = () => {
       // console.log("response",response);
       if (response.status == 200) {
         const userToken = response.data.token;
+        await loginUserWithToken(ServerUrl, userToken);
         setToken(userToken);
-        await loginUserWithToken(userToken);
         setLoading(false);
         return true;
       } else {
-        console.error("Login failed:", response.status);
-        Alert.alert("Login Error", response.status);
+        console.error("Token Login Error:", response.status);
+        Alert.alert("Token Login Error", response.status);
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login failed:", error.message);
 
-      Alert.alert("Login Error", error);
+      Alert.alert("Login Error", error.message);
     } finally {
       setLoading(false);
     }
@@ -56,24 +52,17 @@ const useUserLogin = () => {
   };
 
   // * login user with token
-  const loginUserWithToken = async (userToken) => {
-    const currentServerUrl = await retrieveData("currentServerUrl");
-    console.log("currentServerUrl", currentServerUrl);
+  const loginUserWithToken = async (ServerUrl, userToken) => {
+    // const currentServerUrl = await retrieveData("currentServerUrl");
+    // console.log("currentServerUrl", currentServerUrl);
     try {
       const data = await useFetch(
-        `${currentServerUrl}/api/front/data`,
+        `${ServerUrl}/api/front/data`,
         userToken,
         "fetch data"
       );
 
-      if (OneSignal.Notifications.canRequestPermission()) {
-        console.log("Notifications", data.currentUser._id);
-        OneSignal.Notifications.requestPermission(true).then(() => {
-          console.log("Notifications requestPermission");
-          OneSignal.login(data.currentUser._id);
-        });
-      }
-      // console.log("[loginUserWithToken]currentUser", data.currentUser);
+      console.log("[loginUserWithToken]currentUser", data.currentUser);
       setUser(data.currentUser);
       setTypes(data.types);
       // setAlert(data.alerts.length > 0 ? data.alerts[0] : false);
