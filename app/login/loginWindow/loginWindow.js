@@ -15,16 +15,14 @@ import { router } from "expo-router";
 import "@env";
 import { useServerUrl } from "../../../Hooks/useServerUrl";
 import { initializeSocket } from "../../../Services/socket";
+import { retrieveData } from "../../../Auth/StorageService";
 const LoginWindow = () => {
-  const [isSchemaValid, setIsSchemaValid] = useState(false);
-
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const { setServerUrl, ServerUrl } = useServerUrl();
   const [formData, setFormData] = useState({});
   const userInputRef = useRef();
   const passwordInputRef = useRef();
   const { loading, loginUser } = useUserLogin();
-
   const schema = yup.object().shape({
     server: !formData.server && yup.string().required("server url is required"),
     username: yup.string().required("username is required"),
@@ -37,18 +35,10 @@ const LoginWindow = () => {
     control,
     handleSubmit,
     trigger,
-    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  useEffect(() => {
-    schema
-      .validate(formData)
-      .then(() => setIsSchemaValid(true))
-      .catch(() => setIsSchemaValid(false));
-  }, [schema]);
 
   const handlePasswordToggle = () => {
     setPasswordShowToggle(!passwordShowToggle);
@@ -57,16 +47,15 @@ const LoginWindow = () => {
   //handling the input change
   const handleInputChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
-    setIsSchemaValid(true);
   };
 
   useEffect(() => {
     if (ServerUrl) {
       handleInputChange("server", ServerUrl);
-      setValue("server", ServerUrl);
+      // setValue("server", ServerUrl);
     } else {
       handleInputChange("server", "");
-      setValue("server", "");
+      // setValue("server", "");
     }
   }, [ServerUrl]);
 
@@ -75,7 +64,9 @@ const LoginWindow = () => {
     const username = formData.username;
     const password = formData.password;
     try {
-      if (isSchemaValid) {
+      const isValid = await trigger();
+      console.log("isValid", isValid);
+      if (isValid) {
         const loginSuccess = await loginUser(username, password);
 
         if (loginSuccess) {
@@ -115,6 +106,7 @@ const LoginWindow = () => {
                 secureTextEntry={false}
                 returnKeyType={"next"}
                 value={ServerUrl ? ServerUrl : ""}
+                // defaultValue={ServerUrl ? ServerUrl : ""}
                 numeric={false}
                 underlineColor={"#0C1430"}
                 contentStyle={styles.inputContentStyling}
@@ -123,9 +115,9 @@ const LoginWindow = () => {
                 onChangeFunction={(value) => {
                   handleInputChange("server", value);
                   console.log("server", value);
-                  setServerUrl(value);
 
-                  setValue("server", value);
+                  setServerUrl(value);
+                  // setValue("server", value);
                   trigger("server");
                 }}
                 onSubmitEditing={() => userInputRef.current.focus()}
