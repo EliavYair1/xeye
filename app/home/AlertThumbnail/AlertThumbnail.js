@@ -44,8 +44,6 @@ const AlertThumbnail = ({ alert }) => {
             }}
           >
             <TargetThreat
-              gunBgHeight={200}
-              gunBgWidth={144}
               imageWidth={windowWidth - 32}
               imageHeight={240}
               alert={alert}

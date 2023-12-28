@@ -56,8 +56,6 @@ const AlertScreen = () => {
         <TargetThreat
           imageHeight={windowHeight - 200}
           imageWidth={windowWidth - 32}
-          gunBgWidth={229}
-          gunBgHeight={567}
           alert={alert}
         />
       </View>
