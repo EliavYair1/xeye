@@ -20,9 +20,11 @@ const LoginWindow = () => {
   const [passwordShowToggle, setPasswordShowToggle] = useState(true);
   const { setServerUrl, ServerUrl } = useServerUrl();
   const [formData, setFormData] = useState({});
-  const [serverUrlLocal, setServerUrlLocal] = useState("");
+  // console.log(formData);
+  // const [serverUrlLocal, setServerUrlLocal] = useState("");
   const userInputRef = useRef();
   const passwordInputRef = useRef();
+  const serverRef = useRef();
   const { loading, loginUser } = useUserLogin();
   const schema = yup.object().shape({
     server: !formData.server && yup.string().required("server url is required"),
@@ -69,7 +71,7 @@ const LoginWindow = () => {
       const isValid = await trigger();
       console.log("isValid", isValid);
       if (isValid) {
-        const loginSuccess = await loginUser(username, password);
+        const loginSuccess = await loginUser(server, username, password);
 
         if (loginSuccess) {
           console.log("[LoginWindow] token:", loginSuccess);
@@ -102,7 +104,7 @@ const LoginWindow = () => {
               <Input
                 control={control}
                 name={"server"}
-                proxyRef={userInputRef}
+                proxyRef={serverRef}
                 label={"Server"}
                 mode={"flat"}
                 secureTextEntry={false}

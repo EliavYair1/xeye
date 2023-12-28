@@ -30,7 +30,9 @@ const useUserLogin = () => {
         username,
         password,
       });
-      // console.log("response",response);
+      // console.log("username", username);
+      // console.log("password", password);
+      console.log("response", response);
       if (response.status == 200) {
         const userToken = response.data.token;
         await loginUserWithToken(ServerUrl, userToken);
