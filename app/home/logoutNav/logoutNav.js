@@ -24,7 +24,6 @@ const LogoutNav = () => {
       router.replace("/login");
     }
   };
-  // console.log("screenHeight", screenHeight > 820);
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
@@ -49,7 +48,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: colors.navbar,
     paddingHorizontal: 13.5,
-    // height: 48,
     paddingVertical: screenHeight > 820 ? 20 : 13.5,
   },
   imageWrapper: {},
