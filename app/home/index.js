@@ -43,13 +43,27 @@ export default function Home() {
             user._id,
             OneSignal.Notifications.hasPermission()
           );
-          OneSignal.Notifications.requestPermission(true).then((permi) => {
-            console.log("notifictin status", permi);
-            if (permi || permi[0]) {
-              console.log("Notifications requestPermission");
+
+          try {
+            const permission = await OneSignal.Notifications.requestPermission(
+              true
+            );
+            console.log("Permission status:", permission);
+            if (permission || permission[0]) {
+              console.log("Notifications permission granted");
               OneSignal.login(user._id);
             }
-          });
+          } catch (error) {
+            console.error("Error requesting permission:", error);
+          }
+
+          // OneSignal.Notifications.requestPermission(true).then((permi) => {
+          //   console.log("notifictin status", permi);
+          //   if (permi || permi[0]) {
+          //     console.log("Notifications requestPermission");
+          //     OneSignal.login(user._id);
+          //   }
+          // });
         }
       };
       handlePushRegister();

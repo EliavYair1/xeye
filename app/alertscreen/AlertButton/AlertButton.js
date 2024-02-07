@@ -91,7 +91,7 @@ const AlertButton = ({ toggleLoading, callback, alert }) => {
   const onResolvePress = async () => {
     const options = [
       "False alert",
-      "Naive",
+      "Innocent",
       "Authorized",
       "Real suspect",
       "Cancel",

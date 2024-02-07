@@ -44,6 +44,8 @@ export default function Layout() {
     Inter_600SemiBold,
     Inter_700Bold,
   });
+  // console.log("OneSignal App ID:", Constants.expoConfig.extra.oneSignalAppId);
+
   useEffect(() => {
     async function prepare() {
       ExpoSplashScreen.hideAsync();

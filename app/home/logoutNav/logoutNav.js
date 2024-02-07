@@ -1,9 +1,17 @@
-import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import { MediumText } from "../../../utiles/Fonts";
 import useUserLogin from "../../../Hooks/useUserLogin";
 import { router } from "expo-router";
 import colors from "../../../styles/colors";
+
+const screenHeight = Dimensions.get("screen").height;
 const LogoutNav = () => {
   const { logoutUser, loading } = useUserLogin();
 
@@ -16,6 +24,7 @@ const LogoutNav = () => {
       router.replace("/login");
     }
   };
+  console.log("screenHeight", screenHeight > 820);
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
@@ -39,12 +48,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     backgroundColor: colors.navbar,
-    padding: 13.5,
+    paddingHorizontal: 13.5,
+    // height: 48,
+    paddingVertical: screenHeight > 820 ? 20 : 13.5,
   },
   imageWrapper: {},
   image: {
+    flex: 1,
     width: 48,
-    height: 20,
+    // height: 20,
   },
   logout: {
     // flex: 1,
