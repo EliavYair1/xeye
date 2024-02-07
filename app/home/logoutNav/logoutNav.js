@@ -24,7 +24,7 @@ const LogoutNav = () => {
       router.replace("/login");
     }
   };
-  console.log("screenHeight", screenHeight > 820);
+  // console.log("screenHeight", screenHeight > 820);
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
