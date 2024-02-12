@@ -59,12 +59,14 @@ const AlertScreen = () => {
           alert={alert}
         />
       </View>
-      <AlertButton
-        agentId={alert?._id}
-        toggleLoading={toggleLoading}
-        callback={updateAlertNavbar}
-        alert={alert}
-      />
+      <View style={styles.buttonWrapper}>
+        <AlertButton
+          agentId={alert?._id}
+          toggleLoading={toggleLoading}
+          callback={updateAlertNavbar}
+          alert={alert}
+        />
+      </View>
     </ScreenWrapper>
   );
 };
@@ -78,8 +80,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   imageWrapper: {
+    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 16,
+  },
+  buttonWrapper: {
+    marginBottom: 20,
   },
 });

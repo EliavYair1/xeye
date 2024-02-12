@@ -17,8 +17,10 @@ const AlertThumbnail = ({ alert }) => {
     if (alert) {
       console.log("new alert");
       // console.log("new alert", alert);
+      router.push("/alertscreen");
     } else {
-      console.log("no alerts to display...");
+      console.log("no alerts to display...dsadsasd");
+      router.push("/home");
     }
   }, [alert]);
 
@@ -26,7 +28,7 @@ const AlertThumbnail = ({ alert }) => {
     <View style={styles.container}>
       {alert ? (
         <>
-          <View
+          {/* <View
             style={{
               width: windowWidth - 32,
               height: 1,
@@ -62,7 +64,7 @@ const AlertThumbnail = ({ alert }) => {
               marginBottom: 24,
               opacity: 0.2,
             }}
-          />
+          /> */}
         </>
       ) : (
         <BoldText style={styles.noEventText}>There is no active event</BoldText>

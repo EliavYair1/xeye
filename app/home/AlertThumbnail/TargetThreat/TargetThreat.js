@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Image } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 
 const TargetThreat = React.memo(({ imageHeight, imageWidth, alert }) => {
-  // console.log("props", props);
-  // const alert = props.alert;
   const [imageStyle, setImageStyle] = useState({
-    // width: 100,
-    // height: 100,
     justifyContent: "center",
     alignItems: "center",
+    width: imageWidth,
+    height: imageHeight,
+    aspectRatio: imageWidth / imageHeight,
   });
   useEffect(() => {
     if (alert) {
@@ -40,10 +39,14 @@ const TargetThreat = React.memo(({ imageHeight, imageWidth, alert }) => {
     return <View></View>;
   }
   return (
-    <View style={{ marginBottom: 24 }}>
+    <View style={styles.imageContainer}>
       <Image source={{ uri: alert.snapshot }} style={imageStyle}></Image>
     </View>
   );
 });
-
+const styles = StyleSheet.create({
+  imageContainer: {
+    marginBottom: 24,
+  },
+});
 export default TargetThreat;

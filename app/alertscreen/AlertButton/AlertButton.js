@@ -118,7 +118,17 @@ const AlertButton = ({ toggleLoading, callback, alert }) => {
   };
 
   return (
-    <View>
+    <View
+      style={
+        {
+          // position: "absolute",
+          // bottom: 0,
+          // left: 0,
+          // right: 0,
+          // paddingBottom: 20,
+        }
+      }
+    >
       <Button
         buttonFunction={() => {
           alert.status === "assigned" ? onAcceptPress() : onResolvePress();
