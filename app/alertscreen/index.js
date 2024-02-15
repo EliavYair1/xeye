@@ -30,7 +30,7 @@ const AlertScreen = () => {
         } else {
           console.log("Alert false!");
           setAlert(false);
-          router.replace("/home");
+          router.replace("/final");
         }
       });
     }
